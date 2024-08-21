@@ -6,7 +6,6 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
     "prettier"
@@ -21,7 +20,7 @@
       "jsx": true
     }
   },
-  "plugins": ["react", "react-hooks", "react-refresh", "@typescript-eslint", "prettier", "react-compiler"],
+  "plugins": ["react", "react-refresh", "react-compiler", "prettier"],
   "settings": {
     "import/resolver": {
       "typescript": {
@@ -30,6 +29,7 @@
     }
   },
   "rules": {
+    "prettier/prettier": "error",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-props-no-spreading": "off",
@@ -41,7 +41,6 @@
     "no-debugger": "off",
     "no-console": ["warn", { "allow": ["warn", "error"] }],
     "class-methods-use-this": "off",
-    "prettier/prettier": "error",
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-inferrable-types": "off",
     "@typescript-eslint/array-type": [
