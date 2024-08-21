@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prettier-fix": "npx prettier . --write",
-    "test": "vitest",
+    "test": "vitest --watch=false",
     "prepare": "husky"
   },
   "dependencies": {

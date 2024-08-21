@@ -1,0 +1,17 @@
+html {
+  scroll-behavior: smooth;
+  font-size: 10px;
+  font-family: Montserrat, serif;
+}
+
+input:disabled,
+select:disabled {
+  cursor: not-allowed;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+}

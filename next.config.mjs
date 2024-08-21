@@ -1,10 +1,8 @@
 /** @type {import('next').NextConfig} */
-import path from 'path';
-const stylesPath = path.resolve('styles');
 
 const nextConfig = {
   sassOptions: {
-    includePaths: [stylesPath],
+    includePaths: ['./src/styles'],
     prependData: `@import "mixins.scss"; @import "placeholders.scss"; @import "constants.scss";`,
   },
 };
