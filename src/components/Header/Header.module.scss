@@ -22,7 +22,14 @@
 }
 
 .logoContainer {
-  min-height: 45px;
+  min-height: 70px;
+  max-height: 70px;
   display: flex;
   align-items: center;
+}
+
+.logo {
+  min-height: 90px;
+  max-height: 90px;
+  max-width: 90px;
 }

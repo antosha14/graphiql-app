@@ -1,2 +1,30 @@
 .buttonLarge {
+  background-color: $color-dark-purple-main;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  border-radius: 0.25rem;
+  margin: 20px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  cursor: pointer;
+}
+
+.buttonLarge:hover,
+.buttonLarge:focus {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  background-color: $color-dark-pink;
+  color: $font-color-dark;
+}
+
+.buttonLarge:active {
+  background-color: #f0f0f1;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
+}
+
+.buttonLarge:hover {
+  transform: translateY(-1px);
 }
