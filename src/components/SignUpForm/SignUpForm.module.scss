@@ -14,30 +14,6 @@
   min-width: 540px;
 }
 
-.inputContainer {
-  display: flex;
-  margin-bottom: 0.75rem;
-  flex-direction: column;
-}
-
-.mainLabel {
-  display: flex;
-  margin-bottom: 0.75rem;
-  flex-direction: column;
-  font-weight: bold;
-}
-
-.mainInput {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  background-color: $color-dark-purple-main;
-  color: #fff;
-  border: 3px;
-  border-color: $color-dark-purple-secondary;
-}
-
 .submitButton {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -47,19 +23,26 @@
   font-size: 1.25rem;
   line-height: 1.75rem;
   font-weight: 600;
-  color: #000000;
-  background-color: #9ca3af;
+  color: $color-dark-pink;
+  background-color: $color-dark-bg;
   transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
   cursor: pointer;
 
-  :hover {
-    color: #ffffff;
+  &:hover {
+    color: $color-dark-bg;
+    background-color: $color-dark-pink;
   }
 }
 
-.errorMessage {
-  height: 1rem;
-  color: #fbbf24;
+.submitButtonError {
+  color: $color-dark-bg;
+  background-color: $color-error;
+
+  &:hover {
+    color: $color-dark-bg;
+    background-color: $color-error;
+    box-shadow: 0 4px 8px $color-dark-bg;
+  }
 }

@@ -2,7 +2,7 @@
 
 import styles from './SignInForm.module.scss';
 
-export default function SignUpForm() {
+export default function SignInForm() {
   return (
     <div className={styles.formContainer}>
       <form className={styles.mainForm}></form>

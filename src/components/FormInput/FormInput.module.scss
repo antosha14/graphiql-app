@@ -1,0 +1,56 @@
+.inputContainer {
+  display: flex;
+  margin-bottom: 0.75rem;
+  flex-direction: column;
+  position: relative;
+}
+
+.mainLabel {
+  display: flex;
+  margin-bottom: 0.75rem;
+  flex-direction: column;
+  font-weight: bold;
+}
+
+.mainInput {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  height: 33px;
+  background-color: $color-dark-purple-main;
+  color: #fff;
+  border: none;
+  box-sizing: border-box;
+  &:hover {
+    box-shadow: 0 4px 8px $color-dark-bg;
+    cursor: pointer;
+  }
+}
+
+.mainInput:-webkit-autofill,
+.mainInput:-webkit-autofill:hover,
+.mainInput:-webkit-autofill:focus,
+.mainInput:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px $color-dark-purple-main inset !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+.errorMessage {
+  height: 1.2rem;
+  position: absolute;
+  font-size: 14px;
+  bottom: 40%;
+  left: 2%;
+  background-color: $color-error;
+  padding: 2px 15px;
+  border-radius: 20px;
+}
+
+.noneVisible {
+  display: none;
+}
+
+.redBorder {
+  border: 1px solid $color-error;
+}
