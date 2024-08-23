@@ -24,6 +24,7 @@
   display: flex;
   margin-bottom: 0.75rem;
   flex-direction: column;
+  font-weight: bold;
 }
 
 .mainInput {
@@ -32,6 +33,9 @@
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   background-color: $color-dark-purple-main;
+  color: #fff;
+  border: 3px;
+  border-color: $color-dark-purple-secondary;
 }
 
 .submitButton {
@@ -53,4 +57,9 @@
   :hover {
     color: #ffffff;
   }
+}
+
+.errorMessage {
+  height: 1rem;
+  color: #fbbf24;
 }

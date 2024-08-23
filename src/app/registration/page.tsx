@@ -4,7 +4,7 @@ import styles from './RegistrationPage.module.scss';
 export default function Registration() {
   return (
     <section className={styles.mainContainer}>
-      <div className={styles.formHeader}>Create new User</div>
+      <div className={styles.formHeader}>Create a new User</div>
       <SignUpForm />
     </section>
   );
