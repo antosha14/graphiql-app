@@ -16,7 +16,8 @@
     "@eslint/js": "^9.9.0",
     "next": "14.2.5",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.0",
@@ -38,7 +39,7 @@
     "eslint-plugin-react-refresh": "^0.4.10",
     "husky": "^9.1.5",
     "jsdom": "^24.1.1",
-    "lint-staged": "^15.2.9",
+    "lint-staged": "^6.1.1",
     "prettier": "^3.3.3",
     "sass": "^1.77.8",
     "typescript": "^5",

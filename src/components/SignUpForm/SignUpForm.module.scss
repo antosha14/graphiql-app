@@ -1,0 +1,56 @@
+.formContainer {
+  display: flex;
+  margin: 1rem;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  min-width: 540px;
+}
+
+.mainForm {
+  padding: 1.5rem;
+  border-width: 1px;
+  background-color: $color-dark-purple-secondary;
+  min-width: 540px;
+}
+
+.inputContainer {
+  display: flex;
+  margin-bottom: 0.75rem;
+  flex-direction: column;
+}
+
+.mainLabel {
+  display: flex;
+  margin-bottom: 0.75rem;
+  flex-direction: column;
+}
+
+.mainInput {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  background-color: $color-dark-purple-main;
+}
+
+.submitButton {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 100%;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  color: #000000;
+  background-color: #9ca3af;
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+  cursor: pointer;
+
+  :hover {
+    color: #ffffff;
+  }
+}

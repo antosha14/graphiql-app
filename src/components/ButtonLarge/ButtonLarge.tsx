@@ -1,5 +1,13 @@
 import styles from './ButtonLarge.module.scss';
+import Link from 'next/link';
 
 export default function ButtonLarge({ text }: { text: string }) {
-  return <button className={styles.buttonLarge}>{text}</button>;
+  const targetLink = text == 'Sign In' ? '/authentication' : '/registration';
+  return (
+    <div>
+      <Link href={targetLink} className={styles.buttonLarge}>
+        {text}
+      </Link>
+    </div>
+  );
 }
