@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userRegisterSchema } from '@models/signUpModel';
 import FormInput from '@components/FormInput/FormInput';
+import { registerWithEmailAndPassword } from '../../auth/firebase';
 
 export interface FormInputState {
   name: string;
@@ -24,8 +25,8 @@ export default function SignUpForm() {
     mode: 'onChange',
   });
 
-  const onSubmit: SubmitHandler<FormInputState> = async data => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormInputState> = async () => {
+    registerWithEmailAndPassword(watch('name'), watch('email'), watch('password'));
   };
 
   const checkErrors = () => {

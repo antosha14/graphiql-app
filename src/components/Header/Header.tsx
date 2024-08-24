@@ -1,11 +1,15 @@
+'use client';
+
 import styles from './Header.module.scss';
 import ButtonLarge from '@components/ButtonLarge/ButtonLarge';
 import LanguageToggle from '@components/LanguageToggle/LanguageToggle';
 import Image from 'next/image';
 import logo from '../../../public/logo.jpg';
 import Link from 'next/link';
+import { useAuth } from '@contexts/AuthContext';
 
 export default function Header() {
+  const { currentUser } = useAuth();
   return (
     <header className={styles.headerContainer}>
       <nav className={styles.navContainer}>
@@ -16,8 +20,14 @@ export default function Header() {
         </div>
         <div className={styles.sideNavigation}>
           <LanguageToggle />
-          <ButtonLarge text={'Sign In'} />
-          <ButtonLarge text={'Sign Up'} />
+          {currentUser ? (
+            <ButtonLarge text={'Sign Out'} />
+          ) : (
+            <>
+              <ButtonLarge text={'Sign In'} />
+              <ButtonLarge text={'Sign Up'} />
+            </>
+          )}
         </div>
       </nav>
     </header>

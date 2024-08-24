@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import '@styles/index.scss';
 import Header from '@components/Header/Header';
 import Footer from '@components/Footer/Footer';
+import { AuthProvider } from '@contexts/AuthContext';
 
 export const metadata: Metadata = {
   title: 'APEX API Explorer',
@@ -16,9 +17,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <AuthProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );

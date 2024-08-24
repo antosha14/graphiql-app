@@ -2,6 +2,7 @@ import styles from './FormInput.module.scss';
 import { UseFormRegister, FieldErrors, UseFormWatch } from 'react-hook-form';
 import { FormInputState } from '@components/SignUpForm/SignUpForm';
 import PasswordStrengthMeter from '@components/PasswordStrengthMeter/PasswordStrengthMeter';
+import { usePathname } from 'next/navigation';
 
 interface FormInputProps {
   field: 'name' | 'email' | 'password' | 'passwordConfirm';
@@ -11,6 +12,7 @@ interface FormInputProps {
 }
 
 export default function FormInput({ field, register, errors, watch }: FormInputProps) {
+  const pathname = usePathname();
   const fieldName = field == 'passwordConfirm' ? 'Confirm password:' : `${field[0].toUpperCase()}${field.slice(1)}:`;
   return (
     <div className={styles.inputContainer}>
@@ -23,7 +25,11 @@ export default function FormInput({ field, register, errors, watch }: FormInputP
         className={`${styles.mainInput} ${errors?.[field]?.message ? styles.redBorder : ''}`}
         type={field == 'password' || field == 'passwordConfirm' ? 'password' : 'text'}
       ></input>
-      {field == 'password' ? <PasswordStrengthMeter password={watch('password')}></PasswordStrengthMeter> : ''}
+      {field == 'password' && pathname == '/registration' ? (
+        <PasswordStrengthMeter password={watch('password')}></PasswordStrengthMeter>
+      ) : (
+        ''
+      )}
       <p
         className={`${styles.errorMessage} ${errors?.[field]?.message ? '' : styles.noneVisible}`}
       >{`${errors?.[field] ? errors[field].message : ''}`}</p>
