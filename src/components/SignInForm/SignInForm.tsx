@@ -5,7 +5,10 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userLoginSchema } from '@models/signInModel';
 import FormInput from '@components/FormInput/FormInput';
-import { logInWithEmailAndPassword } from '../../auth/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useAuth } from '@contexts/AuthContext';
+import { useState } from 'react';
+import { stripFirebaseErrorMessage } from '@utils/stripFirebaseErrorMessage';
 
 export interface FormInputState {
   email: string;
@@ -23,27 +26,54 @@ export default function SignInForm() {
     mode: 'onChange',
   });
 
+  const { auth } = useAuth();
+  const [loadingUser, setLoading] = useState(false);
+  const [signInErrors, setSignInErrors] = useState(null);
+
   const onSubmit: SubmitHandler<FormInputState> = async () => {
-    logInWithEmailAndPassword(watch('email'), watch('password'));
+    setLoading(true);
+    try {
+      await signInWithEmailAndPassword(auth, watch('email'), watch('password'));
+    } catch (err) {
+      setSignInErrors(err.message);
+      setTimeout(() => {
+        setSignInErrors(null);
+      }, 10000);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const checkErrors = () => {
     return Object.values(errors).some(value => value !== undefined);
   };
 
-  return (
+  return loadingUser ? (
     <div className={styles.formContainer}>
-      <form className={styles.mainForm} onSubmit={handleSubmit(onSubmit)}>
-        <FormInput field="email" register={register} errors={errors} watch={watch} />
-        <FormInput field="password" register={register} errors={errors} watch={watch} />
-        <button
-          type="submit"
-          className={`${styles.submitButton} ${checkErrors() ? styles.submitButtonError : ''}`}
-          disabled={checkErrors()}
-        >
-          Sign In
-        </button>
-      </form>
+      <img src="loader.svg" alt="Loading indicator"></img>
+      <div>Trying to authenticate ...</div>
     </div>
+  ) : (
+    <>
+      <div className={styles.formHeader}>Welcome back!</div>
+      <div className={styles.formContainer}>
+        <form className={styles.mainForm} onSubmit={handleSubmit(onSubmit)}>
+          <FormInput field="email" register={register} errors={errors} watch={watch} />
+          <FormInput field="password" register={register} errors={errors} watch={watch} />
+          <button
+            type="submit"
+            className={`${styles.submitButton} ${checkErrors() ? styles.submitButtonError : ''}`}
+            disabled={checkErrors()}
+          >
+            Sign In
+          </button>
+        </form>
+        {signInErrors ? (
+          <div className={styles.registrationError}>{`${stripFirebaseErrorMessage(signInErrors)}`}</div>
+        ) : (
+          <div className={styles.registrationErrorPlaceholder}></div>
+        )}
+      </div>
+    </>
   );
 }

@@ -1,3 +1,9 @@
+import { ProtectedRoute } from '@components/ProtectedRoute/ProtectedRoute';
+
 export default function HistoryPage() {
-  return <div>History page</div>;
+  return (
+    <ProtectedRoute>
+      <div>History page</div>
+    </ProtectedRoute>
+  );
 }

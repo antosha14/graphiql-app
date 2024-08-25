@@ -1,3 +1,9 @@
+import { ProtectedRoute } from '@components/ProtectedRoute/ProtectedRoute';
+
 export default function GraphiqlPage() {
-  return <div>Graphiql page</div>;
+  return (
+    <ProtectedRoute>
+      <div>Graphiql page</div>
+    </ProtectedRoute>
+  );
 }

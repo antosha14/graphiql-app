@@ -2,15 +2,14 @@
 
 import styles from '../styles/WelcomePage.module.scss';
 import ButtonLarge from '@components/ButtonLarge/ButtonLarge';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../auth/firebase';
+import { useAuth } from '@contexts/AuthContext';
 import Link from 'next/link';
 
 export default function WelcomePage() {
-  const [user] = useAuthState(auth);
-  const welcomePage = user ? (
+  const { currentUser } = useAuth();
+  const welcomePage = currentUser ? (
     <section className={styles.mainContainer}>
-      <div className={styles.greetingContainer}>{`Welcome Back, ${user.displayName}!`}</div>
+      <div className={styles.greetingContainer}>{`Welcome Back, ${currentUser.displayName}!`}</div>
       <div>Happy to see you here again!</div>
       <div className={styles.buttonsContainer}>
         <Link href="/restful" className={styles.buttonLarge}>

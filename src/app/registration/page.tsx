@@ -18,7 +18,6 @@ export default function Registration() {
 
   return (
     <section className={styles.mainContainer}>
-      <div className={styles.formHeader}>Introduce yourself!</div>
       <SignUpForm />
     </section>
   );

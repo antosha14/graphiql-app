@@ -18,7 +18,6 @@ export default function Authentication() {
 
   return (
     <section className={styles.mainContainer}>
-      <div className={styles.formHeader}>Welcome back!</div>
       <SignInForm />
     </section>
   );

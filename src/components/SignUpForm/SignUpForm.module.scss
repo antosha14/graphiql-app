@@ -46,3 +46,22 @@
     box-shadow: 0 4px 8px $color-dark-bg;
   }
 }
+
+.formHeader {
+  font-size: 44px;
+  font-family: $font-secondary;
+}
+
+.registrationError {
+  min-width: 540px;
+  background-color: $color-error;
+  opacity: 50%;
+  padding: 20px 15px;
+  margin-top: 20px;
+}
+
+.registrationErrorPlaceholder {
+  padding: 20px 15px;
+  margin-top: 20px;
+  min-width: 540px;
+}
