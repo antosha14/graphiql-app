@@ -1,0 +1,7 @@
+.restfulContainer {
+  display: flex;
+  flex: 1;
+  @include tablet {
+    flex-direction: column;
+  }
+}

@@ -15,6 +15,7 @@
   "dependencies": {
     "@eslint/js": "^9.9.0",
     "@hookform/resolvers": "^3.9.0",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "firebase": "^10.13.0",
     "firebase-admin": "^12.4.0",
     "next": "14.2.5",
@@ -22,6 +23,7 @@
     "react-dom": "^18",
     "react-firebase-hooks": "^5.1.1",
     "react-hook-form": "^7.52.2",
+    "react-syntax-highlighter": "^15.5.0",
     "yup": "^1.4.0"
   },
   "devDependencies": {

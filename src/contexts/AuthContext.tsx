@@ -11,13 +11,23 @@ interface AuthContextType {
   db: Firestore;
   auth: Auth;
 }
+
+// const firebaseConfig = {
+//   apiKey: process.env.FIREBASE_API_KEY,
+//   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+//   projectId: process.env.FIREBASE_PROJECTID,
+//   storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+//   messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+//   appId: process.env.FIREBASE_APP_ID,
+// };
+
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.FIREBASE_PROJECTID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID,
+  apiKey: 'AIzaSyBTSzik7Wxj_GmHNCH6qPXGWNjR7DI6QJo',
+  authDomain: 'react-rs-school-2024.firebaseapp.com',
+  projectId: 'react-rs-school-2024',
+  storageBucket: 'react-rs-school-2024.appspot.com',
+  messagingSenderId: '680459748373',
+  appId: '1:680459748373:web:94b088315ffcc8b9c2ba1c',
 };
 
 // Initialize Firebase
