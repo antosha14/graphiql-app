@@ -20,12 +20,13 @@ const jsonExample = {
 export default function RestResponse() {
   return (
     <section className={styles.restResponseContainer}>
-      <div className={styles.httpCodeContainer}>Response Status code: 200 ok</div>
+      <div className={styles.httpCodeContainer}>
+        Response Status code: 200 ok. Time: 20ms. Content length: 104 bytes.
+      </div>
       <div className={styles.syntaxHighlighterWrapper}>
         <SyntaxHighlighter
           language="json"
           style={atomOneDark}
-          showLineNumbers={true}
           customStyle={{
             backgroundColor: 'rgb(46, 35, 108)',
             margin: '10px',

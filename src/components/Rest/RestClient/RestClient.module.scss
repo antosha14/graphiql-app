@@ -6,4 +6,7 @@
   background-color: darken($color-dark-purple-secondary, 10%);
   color: $font-color-light;
   border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }

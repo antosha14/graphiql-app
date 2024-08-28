@@ -11,15 +11,14 @@ $active-color: #f05033;
   .method-select {
     margin-right: 10px;
 
-    select {
+    .methodSelector {
       background-color: $color-dark-purple-secondary;
       color: $font-color-light;
       border: none;
-      padding: 8px 12px;
+      padding: 8px 10px;
       border-radius: 4px;
-      appearance: none;
 
-      option {
+      .methodOption {
         background-color: $color-dark-purple-secondary;
         color: $font-color-light;
       }
@@ -29,7 +28,7 @@ $active-color: #f05033;
   .url-input {
     flex: 1;
 
-    input {
+    .urlInputField {
       width: 100%;
       padding: 8px;
       border: none;
@@ -40,45 +39,22 @@ $active-color: #f05033;
   }
 
   .send-button {
-    background-color: $primary-color;
+    background-color: $color-dark-purple-main;
     color: $font-color-light;
     border: none;
     padding: 8px 16px;
     border-radius: 4px;
     margin-left: 10px;
     cursor: pointer;
-  }
-}
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
 
-.request-options {
-  padding: 10px;
-  border-bottom: 1px solid darken($color-dark-purple-secondary, 10%);
-
-  ul {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    li {
-      margin-right: 20px;
-
-      a {
-        color: $font-color-light;
-        text-decoration: none;
-
-        &.active {
-          color: $active-color;
-        }
-      }
+    &:hover {
+      border-color: rgba(0, 0, 0, 0.15);
+      box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+      background-color: $color-dark-pink;
+      color: $font-color-dark;
+      transform: translateY(-1px);
     }
-  }
-}
-
-.body-options {
-  padding: 10px;
-
-  label {
-    margin-right: 20px;
   }
 }
