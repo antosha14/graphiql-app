@@ -1,9 +1,15 @@
 .headerContainer {
+  position: sticky;
+  top: 0;
+  transition: background-color 0.3s ease;
   display: flex;
   justify-content: center;
   min-height: 70px;
   width: 100%;
   background: $color-dark-purple-secondary;
+  &.sticky {
+    background-color: darken($color-dark-purple-secondary, 5%);
+  }
 }
 
 .navContainer {

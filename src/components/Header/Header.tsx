@@ -7,11 +7,30 @@ import Image from 'next/image';
 import logo from '../../../public/logo.jpg';
 import Link from 'next/link';
 import { useAuth } from '@contexts/AuthContext';
+import { useState, useEffect } from 'react';
 
 export default function Header() {
   const { currentUser } = useAuth();
+  const [isSticky, setIsSticky] = useState(false);
+
+  const handleScroll = () => {
+    const offset = window.scrollY;
+    if (offset > 50) {
+      setIsSticky(true);
+    } else {
+      setIsSticky(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <header className={styles.headerContainer}>
+    <header className={`${styles.headerContainer} ${isSticky ? styles.sticky : ''}`}>
       <nav className={styles.navContainer}>
         <div className={styles.logoContainer}>
           <Link href={'/'}>
