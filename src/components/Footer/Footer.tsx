@@ -9,7 +9,7 @@ export default function Footer() {
       </div>
       <div className={styles.logoContainer}>
         <a href="https://rs.school/react/">
-          <img className={styles.logo} src={'rss-logo.svg'} alt="RS School logo"></img>
+          <img className={styles.logo} src={'/rss-logo.svg'} alt="RS School logo"></img>
         </a>
       </div>
     </footer>

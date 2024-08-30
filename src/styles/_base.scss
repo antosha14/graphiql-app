@@ -32,3 +32,13 @@ a {
     color: $color-dark-pink;
   }
 }
+
+.codeMirror .cm-editor {
+  padding: 0;
+  margin: 0;
+}
+
+.codeMirror .cm-scroller {
+  padding: 0;
+  margin: 0;
+}

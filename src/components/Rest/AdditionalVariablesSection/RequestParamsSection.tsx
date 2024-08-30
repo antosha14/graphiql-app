@@ -2,7 +2,7 @@
 
 import ParamsTable from '../ParamsTable/ParamsTable';
 import styles from './RequestParamsSection.module.scss';
-import { useReducer, useState, useRef, useEffect } from 'react';
+import { useReducer, useState, MutableRefObject } from 'react';
 
 export interface VariableField {
   paramKey: string;
@@ -97,41 +97,36 @@ const initialState: RequestParamsState = {
   lastShown: 'query',
 };
 
-export default function RequestParamsSection() {
+export default function RequestParamsSection({ parentContainerRef }: { parentContainerRef: MutableRefObject<null> }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [height, setHeight] = useState<number>(40);
+  const [startY, setStartY] = useState<number>(0);
 
-  const [height, setHeight] = useState<number>(200);
-  const [isResizing, setIsResizing] = useState<boolean>(false);
-  const elementRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      if (isResizing && elementRef.current) {
-        const mouseY = event.clientY;
-        const newHeight = window.innerHeight - mouseY;
-        setHeight(Math.max(newHeight, 200));
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (parentContainerRef.current) {
+      const heightChange = startY - e.clientY;
+      const newHeight = height + heightChange;
+      if (newHeight > 50 && newHeight < parentContainerRef.current.clientHeight - 40) {
+        setHeight(newHeight);
+        setStartY(e.clientY);
       }
-    };
+    }
+  };
 
-    const handleMouseUp = () => {
-      setIsResizing(false);
-    };
-
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setStartY(e.clientY); // Store the initial mouse position
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
+  };
 
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [isResizing]);
-
-  const handleMouseDown = () => {
-    setIsResizing(true);
+  const handleMouseUp = () => {
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
   };
 
   return (
-    <div className={styles.paramsContainer} style={{ height: `${height}px` }} ref={elementRef}>
+    <div className={styles.paramsContainer} style={{ height: `${height}px` }}>
       <div className={styles.paramsSelectionContainer} onMouseDown={handleMouseDown}>
         <button
           className={`${styles.paramChooseButton} ${state.showQueryVariables ? styles.buttonActive : ''}`}

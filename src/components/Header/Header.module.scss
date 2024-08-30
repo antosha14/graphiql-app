@@ -9,6 +9,7 @@
   background: $color-dark-purple-secondary;
   &.sticky {
     background-color: darken($color-dark-purple-secondary, 5%);
+    z-index: 10;
   }
 }
 
