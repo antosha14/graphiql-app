@@ -2,9 +2,62 @@
 
 import styles from './ParamsTable.module.scss';
 import { VariableField } from '../AdditionalVariablesSection/RequestParamsSection';
+import { variablesActions } from '../AdditionalVariablesSection/RequestParamsSection';
+import { Dispatch } from 'react';
 
-export default function ParamsTable({ elements }: { elements: VariableField[] }) {
-  const onParamChange = () => {};
+interface TableProps {
+  tableFor: 'headers' | 'variables';
+  elements: VariableField[];
+  dispatcher: Dispatch<variablesActions>;
+}
+
+interface ParamsChangeInput {
+  index: number;
+  key?: string;
+  value?: string;
+}
+
+export default function ParamsTable({ tableFor, elements, dispatcher }: TableProps) {
+  const handleParamChange = ({ index, key, value }: ParamsChangeInput) => {
+    if (index + 1 == elements.length) {
+      dispatcher({
+        type: 'added_option',
+        index: index + 1,
+        option: tableFor,
+      });
+    }
+
+    if ((key == '' && elements[index].paramValue == '') || (value == '' && elements[index].paramKey == '')) {
+      dispatcher({
+        type: 'removed_option',
+        option: tableFor,
+        index: index,
+      });
+      return;
+    }
+
+    if (key || key == '') {
+      dispatcher({
+        type: 'edited_option',
+        index: index,
+        option: tableFor,
+        key: key,
+      });
+    }
+    if (value || value == '') {
+      dispatcher({
+        type: 'edited_option',
+        index: index,
+        option: tableFor,
+        value: value,
+      });
+    }
+  };
+
+  const handleOptionDeletion = (index: number) => {
+    return dispatcher({ type: 'removed_option', option: tableFor, index: index });
+  };
+
   return (
     <div className={styles.paramsInputContainer}>
       <table className={styles.queryParamsTable}>
@@ -17,63 +70,38 @@ export default function ParamsTable({ elements }: { elements: VariableField[] })
           </tr>
         </thead>
         <tbody>
-          {elements.length >= 1 ? (
-            elements.map((element, index) => (
-              <tr key={index}>
-                <td className={`${styles.tableData} ${styles.tableDataCenter}`}>
-                  <p>{`${index}`}</p>
-                </td>
-                <td className={styles.tableData}>
-                  <input
-                    type="text"
-                    className={styles.inputField}
-                    value={element.paramKey}
-                    onChange={() => onParamChange()}
-                  />
-                </td>
-                <td className={styles.tableData}>
-                  <input
-                    type="text"
-                    className={styles.inputField}
-                    value={element.paramValue}
-                    onChange={() => onParamChange()}
-                  />
-                </td>
-                <td className={`${styles.tableData}  ${styles.tableDataCenter}`}>
-                  <button className={styles.deleteButton} onClick={() => onParamChange()}>
-                    X
-                  </button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr key={'Initial'}>
+          {elements.map((element, index) => (
+            <tr key={index}>
               <td className={`${styles.tableData} ${styles.tableDataCenter}`}>
-                <p>1</p>
+                <p>{`${index + 1}`}</p>
               </td>
               <td className={styles.tableData}>
                 <input
                   type="text"
                   className={styles.inputField}
-                  placeholder={'Enter key'}
-                  onChange={() => onParamChange()}
+                  value={element.paramKey}
+                  placeholder="Enter key"
+                  onChange={event => handleParamChange({ index: index, key: event.target.value })}
                 />
               </td>
               <td className={styles.tableData}>
                 <input
                   type="text"
                   className={styles.inputField}
-                  placeholder={'Enter value'}
-                  onChange={() => onParamChange()}
+                  value={element.paramValue}
+                  placeholder="Enter value"
+                  onChange={event => handleParamChange({ index: index, value: event.target.value })}
                 />
               </td>
               <td className={`${styles.tableData}  ${styles.tableDataCenter}`}>
-                <button className={styles.deleteButton} onClick={() => onParamChange()}>
-                  X
-                </button>
+                <img
+                  src="/rubbish.svg"
+                  className={styles.deleteButton}
+                  onClick={() => handleOptionDeletion(index)}
+                ></img>
               </td>
             </tr>
-          )}
+          ))}
         </tbody>
       </table>
     </div>

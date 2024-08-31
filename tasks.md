@@ -21,10 +21,10 @@
 
 ### RESTfull client - max 120 points
 
-- [ ] Functional editor enabling query editing and prettifying, request body provided in the url as base64-encoded on focus out. - **40 points**
+- [x] Functional editor enabling query editing and prettifying, request body provided in the url as base64-encoded on focus out. - **(40/40)**
 - [ ] Functional read-only response section, with information about HTTP status and the code. - **30 mpoints**
-- [ ] Method selector, shows all the valid HTTP verbs, value is provided in the url on change. - **10 points**
-- [ ] Input for the url, entered value is provided in base64-encoded way on change. - **15 points**
+- [x] Method selector, shows all the valid HTTP verbs, value is provided in the url on change. - **(10/10)**
+- [x] Input for the url, entered value is provided in base64-encoded way on change. - **(15/15)**
 - [ ] Variables section that can shown or hidden, specified variables are included in the body. - **15 points**
 - [ ] Headers section, value is provided in the url on header add/change. - **20 points**
 
@@ -66,3 +66,4 @@
     АПИ КОЛЛЫ С СЕРВЕРА!!
 13. Если юзер залогинен форма с регистрацией прогружается и только потом редайрект, сделай так чтобы не было показа формы
 14. Полностью вырезать бекграунд у лого, чтобы смена цвета не бросалась в глаза при стики хедере
+15. Добавить переключалку с текста на джейсон в боди эдиторе??????

@@ -5,36 +5,53 @@ import styles from './RequestParamsSection.module.scss';
 import { useReducer, useState, MutableRefObject } from 'react';
 
 export interface VariableField {
+  id: number;
   paramKey: string;
   paramValue: string;
 }
 
 interface RequestParamsState {
   showHeaderVariables: boolean;
-  showQueryVariables: boolean;
+  showVariables: boolean;
   headerVariables: VariableField[];
-  queryVariables: VariableField[];
-  lastShown: 'query' | 'header';
+  variables: VariableField[];
+  lastShown: 'variables' | 'header';
 }
+
+export type variablesActions =
+  | { type: 'showed_variables' }
+  | { type: 'showed_headers' }
+  | { type: 'toggled_show' }
+  | { type: 'added_option'; option: 'variables' | 'headers'; index: number }
+  | { type: 'edited_option'; option: 'variables' | 'headers'; index: number; key?: string; value?: string }
+  | { type: 'removed_option'; option: 'variables' | 'headers'; index: number };
+
+const initialState: RequestParamsState = {
+  showHeaderVariables: false,
+  showVariables: false,
+  headerVariables: [{ id: 0, paramKey: '', paramValue: '' }],
+  variables: [{ id: 0, paramKey: '', paramValue: '' }],
+  lastShown: 'variables',
+};
 
 function reducer(state: RequestParamsState, action: variablesActions): RequestParamsState {
   switch (action.type) {
-    case 'showed_query': {
+    case 'showed_variables': {
       if (state.showHeaderVariables) {
         return {
           ...state,
-          showQueryVariables: !state.showQueryVariables,
+          showVariables: !state.showVariables,
           showHeaderVariables: false,
-          lastShown: 'query',
+          lastShown: 'variables',
         };
       }
-      return { ...state, showQueryVariables: !state.showQueryVariables, lastShown: 'query' };
+      return { ...state, showVariables: !state.showVariables, lastShown: 'variables' };
     }
     case 'showed_headers': {
-      if (state.showQueryVariables) {
+      if (state.showVariables) {
         return {
           ...state,
-          showQueryVariables: false,
+          showVariables: false,
           showHeaderVariables: !state.showHeaderVariables,
           lastShown: 'header',
         };
@@ -42,60 +59,64 @@ function reducer(state: RequestParamsState, action: variablesActions): RequestPa
       return { ...state, showHeaderVariables: !state.showHeaderVariables, lastShown: 'header' };
     }
     case 'toggled_show': {
-      if (state.showQueryVariables) {
-        return { ...state, showQueryVariables: !state.showQueryVariables, lastShown: 'query' };
+      if (state.showVariables) {
+        return { ...state, showVariables: !state.showVariables, lastShown: 'variables' };
       } else if (state.showHeaderVariables) {
         return { ...state, showHeaderVariables: !state.showHeaderVariables, lastShown: 'header' };
       } else {
-        if (state.lastShown == 'query') {
-          return { ...state, showQueryVariables: !state.showQueryVariables, lastShown: 'query' };
+        if (state.lastShown == 'variables') {
+          return { ...state, showVariables: !state.showVariables, lastShown: 'variables' };
         } else {
           return { ...state, showHeaderVariables: !state.showHeaderVariables, lastShown: 'header' };
         }
       }
     }
 
-    case 'added_headers': {
-      const newHeadersArray = [...state.headerVariables, { paramKey: '1', paramValue: 'Monkey' }];
+    case 'added_option': {
+      const option = action.option == 'headers' ? 'headerVariables' : 'variables';
+      const newArray = [...state[option], { id: action.index, paramKey: '', paramValue: '' }];
       return {
         ...state,
-        headerVariables: newHeadersArray,
+        [option]: newArray,
       };
     }
-    case 'removed_headers': {
+
+    case 'edited_option': {
+      const option = action.option == 'headers' ? 'headerVariables' : 'variables';
+      const newArray = [...state[option]].map(item => {
+        if (item.id == action.index) {
+          if (action.key || action.key == '') {
+            return { ...item, paramKey: action.key };
+          } else if (action.value || action.value == '') {
+            return { ...item, paramValue: action.value };
+          }
+        }
+        return { ...item };
+      });
       return {
         ...state,
+        [option]: newArray,
       };
     }
-    case 'added_query': {
+
+    case 'removed_option': {
+      const option = action.option == 'headers' ? 'headerVariables' : 'variables';
+      if (action.index + 1 == state[option].length) {
+        return { ...state };
+      }
+      const newArray = [...state[option]]
+        .filter(({ id }) => id !== action.index)
+        .map((field, index) => ({
+          ...field,
+          id: index,
+        }));
       return {
         ...state,
-      };
-    }
-    case 'removed_query': {
-      return {
-        ...state,
+        [option]: newArray,
       };
     }
   }
 }
-
-type variablesActions =
-  | { type: 'showed_query' }
-  | { type: 'showed_headers' }
-  | { type: 'toggled_show' }
-  | { type: 'added_headers' }
-  | { type: 'removed_headers'; index: number }
-  | { type: 'added_query'; newQuery: VariableField }
-  | { type: 'removed_query'; index: number };
-
-const initialState: RequestParamsState = {
-  showHeaderVariables: false,
-  showQueryVariables: false,
-  headerVariables: [],
-  queryVariables: [],
-  lastShown: 'query',
-};
 
 export default function RequestParamsSection({ parentContainerRef }: { parentContainerRef: MutableRefObject<null> }) {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -129,9 +150,9 @@ export default function RequestParamsSection({ parentContainerRef }: { parentCon
     <div className={styles.paramsContainer} style={{ height: `${height}px` }}>
       <div className={styles.paramsSelectionContainer} onMouseDown={handleMouseDown}>
         <button
-          className={`${styles.paramChooseButton} ${state.showQueryVariables ? styles.buttonActive : ''}`}
+          className={`${styles.paramChooseButton} ${state.showVariables ? styles.buttonActive : ''}`}
           onClick={() => {
-            dispatch({ type: 'showed_query' });
+            dispatch({ type: 'showed_variables' });
           }}
         >
           Variables
@@ -162,10 +183,10 @@ export default function RequestParamsSection({ parentContainerRef }: { parentCon
           </svg>
         </button>
       </div>
-      {state.showQueryVariables ? (
-        <ParamsTable elements={state.queryVariables} dispatcher={dispatch}></ParamsTable>
+      {state.showVariables ? (
+        <ParamsTable tableFor="variables" elements={state.variables} dispatcher={dispatch}></ParamsTable>
       ) : state.showHeaderVariables ? (
-        <ParamsTable elements={state.headerVariables} dispatcher={dispatch}></ParamsTable>
+        <ParamsTable tableFor="headers" elements={state.headerVariables} dispatcher={dispatch}></ParamsTable>
       ) : (
         ''
       )}
