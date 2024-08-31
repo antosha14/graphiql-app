@@ -2,7 +2,8 @@
 
 import ParamsTable from '../ParamsTable/ParamsTable';
 import styles from './RequestParamsSection.module.scss';
-import { useReducer, useState, MutableRefObject } from 'react';
+import { useReducer, useState, MutableRefObject, useEffect } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 
 export interface VariableField {
   id: number;
@@ -115,6 +116,8 @@ function reducer(state: RequestParamsState, action: variablesActions): RequestPa
         [option]: newArray,
       };
     }
+    default:
+      return state;
   }
 }
 
@@ -122,6 +125,20 @@ export default function RequestParamsSection({ parentContainerRef }: { parentCon
   const [state, dispatch] = useReducer(reducer, initialState);
   const [height, setHeight] = useState<number>(40);
   const [startY, setStartY] = useState<number>(0);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (state.headerVariables.length >= 1) {
+      const headers = state.headerVariables
+        .slice(0, -1)
+        .map(header => `${encodeURIComponent(header.paramKey)}=${encodeURIComponent(header.paramValue)}`)
+        .join('&');
+      if (router) {
+        router.push(`${pathname}?${headers}`);
+      }
+    }
+  }, [state.headerVariables]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (parentContainerRef.current) {
