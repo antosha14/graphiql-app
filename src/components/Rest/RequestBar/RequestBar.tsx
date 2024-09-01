@@ -5,7 +5,8 @@ import { useState, useRef, useEffect } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 import { ApexTheme } from '@models/codeMirrorTheme';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { parseRequestBody } from '@utils/parseRequestBody';
 
 const requestTypeOptions = [
   { method: 'GET', color: '#90EE90' },
@@ -35,9 +36,7 @@ export default function RequestBar() {
 
   const editorRef = useRef(null);
   const router = useRouter();
-
-  // const searchParams = useSearchParams();
-  // const slug = searchParams.get('slug');
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (urlInputRef.current && url !== 'noUrl') {
@@ -48,7 +47,11 @@ export default function RequestBar() {
   const updateUrl = (method: string, urlValue: string, bodyValue: string) => {
     const encodedUrl = btoa(urlValue);
     const encodedBody = btoa(bodyValue);
-    router.push(`/restful/${method}/${encodedUrl}/${encodedBody}`);
+    const params: string[] = [];
+    searchParams.forEach((value, key) => {
+      params.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+    });
+    router.push(`/restful/${method}/${encodedUrl}/${encodedBody}?${params.join('&')}`);
   };
 
   const handlePrettifyClick = () => {
@@ -65,6 +68,7 @@ export default function RequestBar() {
 
   const handleBodyBlur = () => {
     try {
+      parseRequestBody(requestBody);
       updateUrl(requestMethod, url, requestBody);
     } catch {
       setRequestBody("Your input wasn't a valid JSON");

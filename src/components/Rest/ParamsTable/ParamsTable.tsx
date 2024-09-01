@@ -44,6 +44,7 @@ export default function ParamsTable({ tableFor, elements, dispatcher }: TablePro
         key: key,
       });
     }
+
     if (value || value == '') {
       dispatcher({
         type: 'edited_option',
@@ -64,7 +65,7 @@ export default function ParamsTable({ tableFor, elements, dispatcher }: TablePro
         <thead>
           <tr>
             <th className={`${styles.tableHead} ${styles.tableDataCenter}`}></th>
-            <th className={styles.tableHead}>Key</th>
+            <th className={styles.tableHead}>{tableFor == 'headers' ? 'Header' : 'Variable name'}</th>
             <th className={styles.tableHead}>Value</th>
             <th className={styles.tableHead}></th>
           </tr>

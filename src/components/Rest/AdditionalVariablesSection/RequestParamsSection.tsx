@@ -3,7 +3,8 @@
 import ParamsTable from '../ParamsTable/ParamsTable';
 import styles from './RequestParamsSection.module.scss';
 import { useReducer, useState, MutableRefObject, useEffect } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams, ReadonlyURLSearchParams } from 'next/navigation';
+import { updateVariablesInLs, getAllVariablesFromLs } from '@utils/useLocalStorage';
 
 export interface VariableField {
   id: number;
@@ -16,6 +17,12 @@ interface RequestParamsState {
   showVariables: boolean;
   headerVariables: VariableField[];
   variables: VariableField[];
+  lastShown: 'variables' | 'header';
+}
+
+interface PersistentParamsState {
+  showHeaderVariables: boolean;
+  showVariables: boolean;
   lastShown: 'variables' | 'header';
 }
 
@@ -75,7 +82,11 @@ function reducer(state: RequestParamsState, action: variablesActions): RequestPa
 
     case 'added_option': {
       const option = action.option == 'headers' ? 'headerVariables' : 'variables';
-      const newArray = [...state[option], { id: action.index, paramKey: '', paramValue: '' }];
+      const newEntry = { id: action.index, paramKey: '', paramValue: '' };
+      const newArray = [...state[option], newEntry];
+      if (option == 'variables') {
+        updateVariablesInLs(newArray);
+      }
       return {
         ...state,
         [option]: newArray,
@@ -94,6 +105,11 @@ function reducer(state: RequestParamsState, action: variablesActions): RequestPa
         }
         return { ...item };
       });
+
+      if (option == 'variables') {
+        updateVariablesInLs(newArray);
+      }
+
       return {
         ...state,
         [option]: newArray,
@@ -111,6 +127,11 @@ function reducer(state: RequestParamsState, action: variablesActions): RequestPa
           ...field,
           id: index,
         }));
+
+      if (option == 'variables') {
+        updateVariablesInLs(newArray);
+      }
+
       return {
         ...state,
         [option]: newArray,
@@ -121,8 +142,24 @@ function reducer(state: RequestParamsState, action: variablesActions): RequestPa
   }
 }
 
+const parseQueryparams = (searchParams: ReadonlyURLSearchParams) => {
+  const params: VariableField[] = [];
+  let index = 0;
+  searchParams.forEach((value, key) => {
+    params.push({ id: index, paramKey: key, paramValue: value });
+    index++;
+  });
+  params.push({ id: 0, paramKey: '', paramValue: '' });
+  return params;
+};
+
 export default function RequestParamsSection({ parentContainerRef }: { parentContainerRef: MutableRefObject<null> }) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const queryParams = useSearchParams();
+  const [state, dispatch] = useReducer(reducer, {
+    ...initialState,
+    headerVariables: parseQueryparams(queryParams),
+    variables: getAllVariablesFromLs(),
+  });
   const [height, setHeight] = useState<number>(40);
   const [startY, setStartY] = useState<number>(0);
   const router = useRouter();

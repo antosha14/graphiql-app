@@ -22,11 +22,11 @@
 ### RESTfull client - max 120 points
 
 - [x] Functional editor enabling query editing and prettifying, request body provided in the url as base64-encoded on focus out. - **(40/40)**
-- [ ] Functional read-only response section, with information about HTTP status and the code. - **30 mpoints**
+- [] Functional read-only response section, with information about HTTP status and the code. - **(30/30)**
 - [x] Method selector, shows all the valid HTTP verbs, value is provided in the url on change. - **(10/10)**
 - [x] Input for the url, entered value is provided in base64-encoded way on change. - **(15/15)**
-- [ ] Variables section that can shown or hidden, specified variables are included in the body. - **15 points**
-- [ ] Headers section, value is provided in the url on header add/change. - **20 points**
+- [ ] Variables section that can shown or hidden, specified variables are included in the body. - **(15/15)**
+- [x] Headers section, value is provided in the url on header add/change. - **(20/20)**
 
 ### GraphiQL route - max 80 points
 
