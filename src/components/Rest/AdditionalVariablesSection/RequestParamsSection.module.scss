@@ -7,7 +7,6 @@
   align-items: center;
   padding: 10px;
   height: 40px;
-  cursor: row-resize;
   width: 100%;
   border-top: 2px solid $color-dark-purple-main;
 }
@@ -36,8 +35,9 @@
 .paramShowButton {
   margin-left: auto;
   margin-top: 10px;
+  padding: 0px 5px;
   height: 30px;
-  border-radius: 2px;
+  border-radius: 5px;
   display: flex;
   align-items: center;
   z-index: 1;

@@ -21,7 +21,7 @@ const requestTypeOptions = [
 ];
 const initialBodyText = '{\n  "message": "Write request body here"\n}';
 
-export default function RequestBar() {
+export default function RequestBar({ height }: { height: number }) {
   const pathname = usePathname();
   const urlParts = pathname.split('/').slice(2);
   const [method, encodedUrl = '', encodedBody = ''] = urlParts;
@@ -103,6 +103,28 @@ export default function RequestBar() {
     }
   };
 
+  const handleSendClick = async () => {
+    const requestParams = {
+      url: 'asdasd',
+      method: 'asda',
+      body: 'sdsad',
+      headers: 'asda',
+    };
+    try {
+      const response = await fetch('/api/makeRestRequest', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestParams),
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error('Error making API call:', error);
+    }
+  };
+
   return (
     <div className={styles['query-section']}>
       <div className={styles['query-bar-container']}>
@@ -139,7 +161,9 @@ export default function RequestBar() {
           />
         </div>
         <div className={styles.sendButtonContainer}>
-          <button className={styles['send-button']}>Send</button>
+          <button className={styles['send-button']} onClick={handleSendClick}>
+            Send
+          </button>
         </div>
       </div>
       <div className={styles.requestBodyContainer}>
@@ -152,7 +176,7 @@ export default function RequestBar() {
             extensions={[json()]}
             theme={ApexTheme}
             className={styles.codeMirror}
-            height="200px"
+            height={`${height}px`}
             ref={editorRef}
             onChange={value => handleBodyChange(value)}
             onBlur={handleBodyBlur}

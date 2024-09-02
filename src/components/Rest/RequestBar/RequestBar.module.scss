@@ -96,7 +96,7 @@
 
 .requestBodyContainer {
   display: flex;
-  flex: 1;
+  height: 340px;
   justify-content: baseline;
   align-items: top;
   padding: 10px;
@@ -115,4 +115,5 @@
   position: absolute;
   width: 100%;
   max-width: 100%;
+  margin-bottom: 20px;
 }
