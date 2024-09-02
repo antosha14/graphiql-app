@@ -7,6 +7,7 @@ import { json } from '@codemirror/lang-json';
 import { ApexTheme } from '@models/codeMirrorTheme';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { parseRequestBody } from '@utils/parseRequestBody';
+import IconWithDescription from '../IconWithDescription/IconWithDescription';
 
 const requestTypeOptions = [
   { method: 'GET', color: '#90EE90' },
@@ -51,7 +52,7 @@ export default function RequestBar({ height }: { height: number }) {
     searchParams.forEach((value, key) => {
       params.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
     });
-    router.push(`/restful/${method}/${encodedUrl}/${encodedBody}?${params.join('&')}`);
+    router.push(`/restful/${method}/${encodedUrl}/${encodedBody}?${params.join('&')}`, { scroll: false });
   };
 
   const handlePrettifyClick = () => {
@@ -76,7 +77,7 @@ export default function RequestBar({ height }: { height: number }) {
   };
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    const value = e.target.value !== '' ? e.target.value : 'noUrl';
     setUrl(value);
     if (typingTimeout) {
       clearTimeout(typingTimeout);
@@ -183,8 +184,16 @@ export default function RequestBar({ height }: { height: number }) {
           />
         </div>
         <div className={styles.buttonsContainer}>
-          <img src="/brush.svg" className={styles.bodyHelperButton} onClick={handlePrettifyClick}></img>
-          <img src="/copy.svg" className={styles.bodyHelperButton} onClick={handleCopyClick}></img>
+          <IconWithDescription
+            imageUrl="/brush.svg"
+            handleClickFunction={handlePrettifyClick}
+            description="Prettify the body"
+          ></IconWithDescription>
+          <IconWithDescription
+            imageUrl="/copy.svg"
+            handleClickFunction={handleCopyClick}
+            description="Copy the body"
+          ></IconWithDescription>
         </div>
       </div>
     </div>

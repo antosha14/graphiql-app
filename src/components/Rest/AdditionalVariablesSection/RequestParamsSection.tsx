@@ -120,7 +120,7 @@ export default function RequestParamsSection({
         .map(header => `${encodeURIComponent(header.paramKey)}=${encodeURIComponent(header.paramValue)}`)
         .join('&');
       if (router) {
-        router.push(`${pathname}?${headers}`);
+        router.push(`${pathname}?${headers}`, { scroll: false });
       }
     }
   }, [state.headerVariables]);
