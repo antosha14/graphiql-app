@@ -1,37 +1,69 @@
-// import { NextApiRequest, NextApiResponse } from 'next';
+import { httpStatusCodes } from '@models/httpStatusCodes';
+import { VariableField } from '@components/Rest/AdditionalVariablesSection/RequestParamsSection';
 
-// interface RequestBody {
-//   url: string;
-//   method: string;
-//   headers?: Record<string, string>;
-//   body?: string;
-//   queryParams?: Record<string, string>;
-// }
+type HeadersObject = { [key: string]: string };
 
-// export async function POST(req: NextApiRequest, res: NextApiResponse) {
-//   const { url, method, headers, body, queryParams }: RequestBody = req.body;
-//   console.log(req.body);
+export async function POST(req: Request) {
+  try {
+    const { url, method, headers, body } = await req.json();
+    const startTime = Date.now();
 
-//   if (!url || typeof url !== 'string') {
-//     return res.status(400).json({ error: 'URL is required' });
-//   }
+    if (!url) {
+      return Response.json(
+        { error: 'The provided URL is not valid. Please check the URL and try again.' },
+        { status: 400 }
+      );
+    }
 
-//   const requestOptions: RequestInit = {
-//     method: req.method,
-//     headers: {
-//       ...req.headers,
-//       'Content-Type': req.method !== 'GET' ? 'application/json' : undefined,
-//     },
-//     body: req.method !== 'GET' ? JSON.stringify(req.body) : null,
-//   };
+    const validHeaders = headers.filter((entry: VariableField) => entry.paramKey && entry.paramValue);
+    const headersObject: HeadersObject = validHeaders.reduce(
+      (acc: HeadersObject, { paramKey, paramValue }: { paramKey: string; paramValue: string }) => {
+        acc[paramKey] = paramValue;
+        return acc;
+      },
+      {}
+    );
 
-//   try {
-//     const response = await fetch(url, requestOptions);
-//     const data = await response.json();
+    const requestOptions: RequestInit = {
+      method: method,
+      headers: headers === '' ? undefined : new Headers(headersObject),
+      body: method !== 'GET' ? body : null,
+    };
 
-//     res.status(response.status).json(data);
-//   } catch (error) {
-//     console.error('Error:', error);
-//     res.status(500).json({ error: 'Error making request' });
-//   }
-// }
+    const response = await fetch(url, requestOptions);
+
+    const requestDuration = Date.now() - startTime;
+    const statusText = response.statusText || httpStatusCodes[Number(response.status)] || 'Unknown Status';
+    const contentLength = response.headers.get('content-length') || '0';
+
+    let data;
+    if (response.ok) {
+      data = await response.json();
+    } else {
+      data = await response.text();
+    }
+
+    const responseData = {
+      status: response.status,
+      statusText: statusText,
+      duration: requestDuration,
+      contentLength: contentLength,
+      data: data,
+    };
+    return Response.json({ ...responseData });
+  } catch (error) {
+    if (error instanceof TypeError && error.message.includes('Failed to parse URL')) {
+      return Response.json(
+        { error: 'The provided URL is not valid. Please check the URL and try again.' },
+        { status: 400 }
+      );
+    }
+
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : 'An unexpected error occurred while executing your request. Please try again.';
+    const statusCode = error instanceof Response ? error.status : 500;
+    return Response.json({ error: errorMessage }, { status: statusCode });
+  }
+}

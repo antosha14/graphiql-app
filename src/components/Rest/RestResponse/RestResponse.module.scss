@@ -4,15 +4,50 @@
   background-color: $color-dark-purple-secondary;
   border-radius: 30px;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .syntaxHighlighterWrapper {
   width: 100%;
+  flex: 1;
 }
 
 .httpCodeContainer {
   padding: 10px;
-  height: 55px;
+}
+
+.responseStatusParagraph {
+  font-size: 16px;
+}
+
+.syntaxHighlighterWrapper > .cm-editor > .cm-gutters {
+  border-right: none;
+  margin-top: 10px;
+}
+
+.syntaxHighlighterWrapper {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.responseLoadingContainer {
   display: flex;
+  height: 100%;
   align-items: center;
+  justify-content: center;
+}
+
+.loadingSvg {
+  height: 80px;
+  width: auto;
+}
+
+.responseErrorContainer {
+  padding: 10px 5px;
+  margin: 10px;
+  background-color: $color-error;
+  border-radius: 10px;
 }

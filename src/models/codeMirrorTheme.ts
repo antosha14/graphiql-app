@@ -9,8 +9,9 @@ export const ApexTheme = createTheme({
     caret: '#ffffff',
     selection: 'rgba(255, 255, 255, 0.2)',
     selectionMatch: 'rgba(255, 255, 255, 0.3)',
-    lineHighlight: 'rgba(255, 255, 255, 0.1)',
+    lineHighlight: 'transparent',
     gutterBackground: 'rgb(46, 35, 108)',
+    gutterBorder: 'transparent',
     gutterForeground: '#b0b0b0',
   },
   styles: [

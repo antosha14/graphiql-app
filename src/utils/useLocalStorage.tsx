@@ -1,3 +1,5 @@
+'use client';
+
 const variablesLocalStorageName = 'variables';
 const queriesLocalStorageName = 'queries';
 
@@ -7,7 +9,30 @@ export interface Variable {
   paramValue: string;
 }
 
-export const addQueryToLs = () => {};
+export interface Query {
+  url: string;
+  method: string;
+  body: string;
+  headers: Variable[];
+  status: number;
+  statusText: string;
+}
+
+export const addQueryToLs = (query: Query) => {
+  const queriesFromLs = localStorage.getItem(queriesLocalStorageName);
+  if (!queriesFromLs) {
+    localStorage.setItem(queriesLocalStorageName, JSON.stringify([]));
+  } else {
+    const parsedQueries: Query[] = JSON.parse(queriesFromLs);
+    const newQuery: Query = {
+      ...query,
+      body: JSON.parse(query.body),
+      headers: query.headers.slice(0, -1),
+    };
+    parsedQueries.push(newQuery);
+    localStorage.setItem(queriesLocalStorageName, JSON.stringify(parsedQueries));
+  }
+};
 
 export const getAllQueries = () => {
   const queriesString = localStorage.getItem(queriesLocalStorageName);

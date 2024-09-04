@@ -22,19 +22,19 @@
 ### RESTfull client - max 120 points
 
 - [x] Functional editor enabling query editing and prettifying, request body provided in the url as base64-encoded on focus out. - **(40/40)**
-- [] Functional read-only response section, with information about HTTP status and the code. - **(30/30)**
+- [x] Functional read-only response section, with information about HTTP status and the code. - **(30/30)**
 - [x] Method selector, shows all the valid HTTP verbs, value is provided in the url on change. - **(10/10)**
 - [x] Input for the url, entered value is provided in base64-encoded way on change. - **(15/15)**
-- [ ] Variables section that can shown or hidden, specified variables are included in the body. - **(15/15)**
+- [x] Variables section that can shown or hidden, specified variables are included in the body. - **(15/15)**
 - [x] Headers section, value is provided in the url on header add/change. - **(20/20)**
 
 ### GraphiQL route - max 80 points
 
-- [ ] Functional editor enabling query editing and prettifying, request body provided in the url as base64-encoded on focus out. - **35 points**
-- [ ] Read-only response section, with information about HTTP status and the code, reused from the RESTfull client. - **5 points**
+- [x] Functional editor enabling query editing and prettifying, request body provided in the url as base64-encoded on focus out. - **35 points**
+- [x] Read-only response section, with information about HTTP status and the code, reused from the RESTfull client. - **5 points**
 - [ ] Operational documentation explorer, visible _only_ upon successful SDL request. - **20 points**
-- [ ] Variables section that can shown or hidden, specified variables are included in the body. - **10 points**
-- [ ] Header section that can be shown or hidden, value is provided in the url on header add/change. - **10 points**
+- [x] Variables section that can shown or hidden, specified variables are included in the body. - **10 points**
+- [x] Header section that can be shown or hidden, value is provided in the url on header add/change. - **10 points**
 
 ### History route - max 50 points
 
@@ -46,7 +46,7 @@
 
 - [ ] Multiple (at lest 2) languages support / i18n. - **30 points**
 - [x] Sticky header. - **(10/10)**
-- [ ] Errors are displayed in the user friendly format. - **10 points**
+- [x] Errors are displayed in the user friendly format. - **10 points**
 
 1. Глаз на пароль
 2. Конфирм пароль если написан первый должен убрать ошибку когда пароли стали одинаковыми
@@ -69,3 +69,8 @@
 15. Добавить переключалку с текста на джейсон в боди эдиторе??????
 
 16. Фикс бага с локал стораджом и и стораджом сессии
+    Добавить плюшки в код миррор типо автокомплита
+
+17. Сделать и проверить хедеры, боди и квери параметры. Поискать другие публичные апи, принимающие пост запросы c JSON
+18. Баг с 2, 3 строкой хедеров и велью. Пишешь в первое и пишет во все. В хедере создаёт новый энтри но в последнем не печатает
+19. ctrl+v в url вставляет в code mirroir

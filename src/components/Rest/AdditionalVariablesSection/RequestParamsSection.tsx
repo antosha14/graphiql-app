@@ -87,14 +87,14 @@ function reducer(state: RequestParamsState, action: variablesActions): RequestPa
   }
 }
 
-const parseQueryparams = (searchParams: ReadonlyURLSearchParams) => {
+export const parseQueryparams = (searchParams: ReadonlyURLSearchParams) => {
   const params: VariableField[] = [];
   let index = 0;
   searchParams.forEach((value, key) => {
     params.push({ id: index, paramKey: key, paramValue: value });
     index++;
   });
-  params.push({ id: 0, paramKey: '', paramValue: '' });
+  params.push({ id: params.length, paramKey: '', paramValue: '' });
   return params;
 };
 

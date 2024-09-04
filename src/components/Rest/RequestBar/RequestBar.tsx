@@ -2,12 +2,15 @@
 
 import styles from './RequestBar.module.scss';
 import { useState, useRef, useEffect } from 'react';
-import CodeMirror from '@uiw/react-codemirror';
+import CodeMirror, { EditorView } from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 import { ApexTheme } from '@models/codeMirrorTheme';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { parseRequestBody } from '@utils/parseRequestBody';
 import IconWithDescription from '../IconWithDescription/IconWithDescription';
+import { useRequestUpdateContext } from '@contexts/RequestStateContext';
+import { parseQueryparams } from '../AdditionalVariablesSection/RequestParamsSection';
+import { addQueryToLs } from '@utils/useLocalStorage';
 
 const requestTypeOptions = [
   { method: 'GET', color: '#90EE90' },
@@ -28,9 +31,7 @@ export default function RequestBar({ height }: { height: number }) {
   const [method, encodedUrl = '', encodedBody = ''] = urlParts;
 
   const [requestMethod, setRequestMethod] = useState<string>(method || 'GET');
-
   const [requestBody, setRequestBody] = useState<string>(encodedBody ? atob(encodedBody) : initialBodyText);
-
   const [url, setUrl] = useState<string>(encodedUrl ? atob(encodedUrl) : 'noUrl');
   const urlInputRef = useRef<HTMLInputElement>(null);
   const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null);
@@ -38,6 +39,7 @@ export default function RequestBar({ height }: { height: number }) {
   const editorRef = useRef(null);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const setRequestState = useRequestUpdateContext();
 
   useEffect(() => {
     if (urlInputRef.current && url !== 'noUrl') {
@@ -85,7 +87,7 @@ export default function RequestBar({ height }: { height: number }) {
     setTypingTimeout(
       setTimeout(() => {
         updateUrl(requestMethod, value, requestBody);
-      }, 1000)
+      }, 300)
     );
   };
 
@@ -105,11 +107,16 @@ export default function RequestBar({ height }: { height: number }) {
   };
 
   const handleSendClick = async () => {
+    if (setRequestState) {
+      setRequestState(state => {
+        return { ...state, status: 'pending' };
+      });
+    }
     const requestParams = {
-      url: 'asdasd',
-      method: 'asda',
-      body: 'sdsad',
-      headers: 'asda',
+      url: url !== 'noUrl' ? url : '',
+      method: requestMethod,
+      body: requestBody,
+      headers: parseQueryparams(searchParams),
     };
     try {
       const response = await fetch('/api/makeRestRequest', {
@@ -119,10 +126,69 @@ export default function RequestBar({ height }: { height: number }) {
         },
         body: JSON.stringify(requestParams),
       });
-      const data = await response.json();
-      console.log(data);
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        if (responseData.error && setRequestState) {
+          setRequestState({
+            status: 'displayError',
+            response: {
+              status: response.status,
+              statusText: responseData.error,
+              data: responseData.error,
+            },
+          });
+          addQueryToLs({
+            ...requestParams,
+            status: response.status,
+            statusText: responseData.error,
+          });
+        } else if (setRequestState) {
+          setRequestState({
+            status: 'displayError',
+            response: {
+              status: response.status,
+              statusText: 'An unexpected error occurred. Please try again later',
+              data: 'An unexpected error occurred. Please try again later',
+            },
+          });
+          addQueryToLs({
+            ...requestParams,
+            status: response.status,
+            statusText: 'An unexpected error occurred. Please try again later',
+          });
+        }
+        return;
+      }
+
+      if (setRequestState) {
+        setRequestState({
+          status: 'displayed',
+          response: {
+            status: responseData.status,
+            statusText: responseData.statusText,
+            duration: responseData.duration,
+            contentLength: responseData.contentLength,
+            data: JSON.stringify(responseData.data, null, 2),
+          },
+        });
+        addQueryToLs({
+          ...requestParams,
+          status: responseData.status,
+          statusText: responseData.statusText,
+        });
+      }
     } catch (error) {
-      console.error('Error making API call:', error);
+      if (setRequestState) {
+        setRequestState({
+          status: 'displayError',
+          response: {
+            status: 0,
+            statusText: `${error}`,
+            data: `${error}`,
+          },
+        });
+      }
     }
   };
 
@@ -167,14 +233,14 @@ export default function RequestBar({ height }: { height: number }) {
           </button>
         </div>
       </div>
-      <div className={styles.requestBodyContainer}>
+      <div className={styles.requestBodyContainer} style={{ height: `${height + 10}px` }}>
         <div className={styles.bodyLabel}>
           <div>Body:</div>
         </div>
         <div className={styles.bodyEditorContainer}>
           <CodeMirror
             value={requestBody}
-            extensions={[json()]}
+            extensions={[json(), EditorView.lineWrapping]}
             theme={ApexTheme}
             className={styles.codeMirror}
             height={`${height}px`}
@@ -187,12 +253,12 @@ export default function RequestBar({ height }: { height: number }) {
           <IconWithDescription
             imageUrl="/brush.svg"
             handleClickFunction={handlePrettifyClick}
-            description="Prettify the body"
+            description="Prettify"
           ></IconWithDescription>
           <IconWithDescription
             imageUrl="/copy.svg"
             handleClickFunction={handleCopyClick}
-            description="Copy the body"
+            description="Copy"
           ></IconWithDescription>
         </div>
       </div>

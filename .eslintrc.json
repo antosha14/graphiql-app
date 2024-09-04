@@ -62,13 +62,6 @@
       }
     ],
     "react/jsx-no-constructed-context-values": "off",
-    "no-param-reassign": [
-      "error",
-      {
-        "props": true,
-        "ignorePropertyModificationsFor": ["state"]
-      }
-    ],
     "react/jsx-no-useless-fragment": "error",
     "no-unused-expressions": [
       "error",
