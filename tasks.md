@@ -8,8 +8,8 @@
 
 - [x] The Main page should contain general information about the developers, project, and course. - **(10/10)**
 - [x] In the upper right corner there are 2 buttons: Sign In and Sign Up. - **(10/10)**
-- [ ] If the login token is valid and unexpired, the Sign In and Sign Up buttons are replaced with the "Main Page" button. - **(0/10)**
-- [ ] When the token expires - the user should be redirected to the Main page automatically. - **(0/10)**
+- [x] If the login token is valid and unexpired, the Sign In and Sign Up buttons are replaced with the "Main Page" button. - **(10/10)**
+- [x] When the token expires - the user should be redirected to the Main page automatically. - **(10/10)**
 - [x] Pressing the Sign In / Sign up button redirects a user to the route with the Sign In / Sign up form. - **(10/10)**
 
 ### Sign In / Sign Up - (50/50)
@@ -30,23 +30,23 @@
 
 ### GraphiQL route - max 80 points
 
-- [x] Functional editor enabling query editing and prettifying, request body provided in the url as base64-encoded on focus out. - **35 points**
-- [x] Read-only response section, with information about HTTP status and the code, reused from the RESTfull client. - **5 points**
-- [ ] Operational documentation explorer, visible _only_ upon successful SDL request. - **20 points**
-- [x] Variables section that can shown or hidden, specified variables are included in the body. - **10 points**
-- [x] Header section that can be shown or hidden, value is provided in the url on header add/change. - **10 points**
+- [x] Functional editor enabling query editing and prettifying, request body provided in the url as base64-encoded on focus out. - **(35/35)**
+- [x] Read-only response section, with information about HTTP status and the code, reused from the RESTfull client. - **(5/5)**
+- [x] Operational documentation explorer, visible _only_ upon successful SDL request. - **(20/20)**
+- [x] Variables section that can shown or hidden, specified variables are included in the body. - **(10/10)**
+- [x] Header section that can be shown or hidden, value is provided in the url on header add/change. - **(10/10)**
 
 ### History route - max 50 points
 
-- [ ] History shows informational message with links to the clients when there are no requests in the local storage. - **10 points**
-- [ ] User can navigate to the previoulsy executed HTTP request to the RESTfull client, HTTP method, url, body, headers, variables are restored. **20 points**
-- [ ] User can navigate to the previoulsy executed GraphQL request to the GraphiQL client, url, SDL url, body, headers, variables are restored. **20 points**
+- [x] History shows informational message with links to the clients when there are no requests in the local storage. - **(10/10)**
+- [x] User can navigate to the previoulsy executed HTTP request to the RESTfull client, HTTP method, url, body, headers, variables are restored. **(20/20)**
+- [x] User can navigate to the previoulsy executed GraphQL request to the GraphiQL client, url, SDL url, body, headers, variables are restored. **(20/20)**
 
 ### General requirements - max 50 points
 
-- [ ] Multiple (at lest 2) languages support / i18n. - **30 points**
+- [x] Multiple (at lest 2) languages support / i18n. - **30 points**
 - [x] Sticky header. - **(10/10)**
-- [x] Errors are displayed in the user friendly format. - **10 points**
+- [x] Errors are displayed in the user friendly format. - **(10/10)**
 
 1. Глаз на пароль
 2. Конфирм пароль если написан первый должен убрать ошибку когда пароли стали одинаковыми
@@ -74,3 +74,4 @@
 17. Сделать и проверить хедеры, боди и квери параметры. Поискать другие публичные апи, принимающие пост запросы c JSON
 18. Баг с 2, 3 строкой хедеров и велью. Пишешь в первое и пишет во все. В хедере создаёт новый энтри но в последнем не печатает
 19. ctrl+v в url вставляет в code mirroir
+20. Variables из сессион стораджа подтянуть и привязать к реквесту?

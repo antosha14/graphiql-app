@@ -10,7 +10,7 @@ export default function WelcomePage() {
   const welcomePage = currentUser ? (
     <section className={styles.mainContainer}>
       <div className={styles.greetingContainer}>{`Welcome Back, ${currentUser.displayName}!`}</div>
-      <div>Happy to see you here again!</div>
+      <div className={styles.greetingMessage}>Happy to see you here again!</div>
       <div className={styles.buttonsContainer}>
         <Link href="/restful/GET" className={styles.buttonLarge}>
           REST Client
@@ -26,7 +26,9 @@ export default function WelcomePage() {
   ) : (
     <section className={styles.mainContainer}>
       <div className={styles.greetingContainer}>Welcome!</div>
-      <div>My name is Anton and here is my REST/GraphiQL Client for RS School 2024 React course!</div>
+      <div className={styles.greetingMessage}>
+        My name is Anton and here is my REST/GraphiQL Client for RS School 2024 React course!
+      </div>
       <div className={styles.buttonsContainer}>
         <ButtonLarge text="Sign In"></ButtonLarge>
         <ButtonLarge text="Sign Up"></ButtonLarge>

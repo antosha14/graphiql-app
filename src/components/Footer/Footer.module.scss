@@ -14,7 +14,7 @@
   min-height: 40px;
   display: flex;
   align-items: center;
-  margin: 0 15px;
+  margin: 0 1%;
   @include mobile {
     margin: 0 7px;
   }
@@ -22,12 +22,16 @@
 
 .year {
   margin: 0 10px;
+
+  @include mobile {
+    margin: 0 3px;
+  }
 }
 
 .logoContainer {
   width: 40px;
   height: 40px;
-  margin: 0 15px;
+  margin: 0 1%;
   font-size: 8px;
   @include mobile {
     margin: 0 7px;
