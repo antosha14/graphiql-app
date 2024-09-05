@@ -25,10 +25,10 @@ export default function HistorySection() {
         </div>
       )}
       <div className={styles.buttonsContainer}>
-        <Link href="/restful/GET" className={styles.buttonLarge}>
+        <Link href="/GET" className={styles.buttonLarge}>
           REST Client
         </Link>
-        <Link href="/graphiql" className={styles.buttonLarge}>
+        <Link href="/GRAPHQL" className={styles.buttonLarge}>
           GraphiQL Client
         </Link>
       </div>

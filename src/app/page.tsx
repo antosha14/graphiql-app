@@ -12,11 +12,11 @@ export default function WelcomePage() {
       <div className={styles.greetingContainer}>{`Welcome Back, ${currentUser.displayName}!`}</div>
       <div className={styles.greetingMessage}>Happy to see you here again!</div>
       <div className={styles.buttonsContainer}>
-        <Link href="/restful/GET" className={styles.buttonLarge}>
+        <Link href="/GET" className={styles.buttonLarge}>
           REST Client
         </Link>
-        <Link href="/graphiql" className={styles.buttonLarge}>
-          GraphiQL Client
+        <Link href="/GRAPHQL" className={styles.buttonLarge}>
+          GraphQL Client
         </Link>
         <Link href="/history" className={styles.buttonLarge}>
           History

@@ -1,17 +1,16 @@
 'use client';
 
-import styles from './RequestBar.module.scss';
+import styles from './GraphiQlRequestBar.module.scss';
 import { useState, useRef, useEffect } from 'react';
 import CodeMirror, { EditorView } from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 import { ApexTheme } from '@models/codeMirrorTheme';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { parseRequestBody } from '@utils/parseRequestBody';
-import IconWithDescription from '../IconWithDescription/IconWithDescription';
+import IconWithDescription from '@components/Rest/IconWithDescription/IconWithDescription';
 import { useRequestUpdateContext } from '@contexts/RequestStateContext';
-import { parseQueryparams } from '../AdditionalVariablesSection/RequestParamsSection';
+import { parseQueryparams } from '@components/Rest/AdditionalVariablesSection/RequestParamsSection';
 import { addQueryToLs } from '@utils/useLocalStorage';
-import { requestTypeOptions } from '@models/requestTypeOptions';
 
 const initialBodyText = '{\n  "message": "Write request body here"\n}';
 
@@ -20,7 +19,7 @@ export default function RequestBar({ height }: { height: number }) {
   const urlParts = pathname.split('/').slice(1);
   const [method, encodedUrl = '', encodedBody = ''] = urlParts;
 
-  const [requestMethod, setRequestMethod] = useState<string>(method || 'GET');
+  const [requestMethod] = useState<string>(method || 'GET');
   const [requestBody, setRequestBody] = useState<string>(encodedBody ? atob(encodedBody) : initialBodyText);
   const [url, setUrl] = useState<string>(encodedUrl ? atob(encodedUrl) : 'noUrl');
   const urlInputRef = useRef<HTMLInputElement>(null);
@@ -44,7 +43,7 @@ export default function RequestBar({ height }: { height: number }) {
     searchParams.forEach((value, key) => {
       params.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
     });
-    router.push(`/${method}/${encodedUrl}/${encodedBody}?${params.join('&')}`, { scroll: false });
+    router.push(`/graphql/${encodedUrl}/${encodedBody}?${params.join('&')}`, { scroll: false });
   };
 
   const handlePrettifyClick = () => {
@@ -79,11 +78,6 @@ export default function RequestBar({ height }: { height: number }) {
         updateUrl(requestMethod, value, requestBody);
       }, 300)
     );
-  };
-
-  const handleMethodChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setRequestMethod(e.target.value);
-    updateUrl(e.target.value, url, requestBody);
   };
 
   const handleBodyChange = (value: string) => {
@@ -185,34 +179,12 @@ export default function RequestBar({ height }: { height: number }) {
   return (
     <div className={styles['query-section']}>
       <div className={styles['query-bar-container']}>
-        <div className={styles['method-select']}>
-          <select
-            name="method"
-            className={styles.methodSelector}
-            style={{ color: `${requestTypeOptions.find(option => option.method === requestMethod)?.color}` }}
-            onChange={handleMethodChange}
-            value={requestMethod}
-          >
-            {requestTypeOptions.map(value => {
-              return (
-                <option
-                  key={value.method}
-                  value={value.method}
-                  style={{ color: `${value.color}` }}
-                  className={styles.methodOption}
-                >
-                  {value.method}
-                </option>
-              );
-            })}
-          </select>
-        </div>
         <div className={styles['url-input']}>
           <input
             ref={urlInputRef}
             type="text"
             className={styles.urlInputField}
-            placeholder="Enter URL or paste text"
+            placeholder="Enter GraphQL Endpoint URL"
             value={url !== 'noUrl' ? url : ''}
             onChange={handleUrlChange}
           />
@@ -223,10 +195,8 @@ export default function RequestBar({ height }: { height: number }) {
           </button>
         </div>
       </div>
+
       <div className={styles.requestBodyContainer} style={{ height: `${height + 10}px` }}>
-        <div className={styles.bodyLabel}>
-          <div>Body:</div>
-        </div>
         <div className={styles.bodyEditorContainer}>
           <CodeMirror
             value={requestBody}
@@ -250,6 +220,23 @@ export default function RequestBar({ height }: { height: number }) {
             handleClickFunction={handleCopyClick}
             description="Copy"
           ></IconWithDescription>
+        </div>
+      </div>
+      <div className={styles['query-bar-container']}>
+        <div className={styles['url-input']}>
+          <input
+            ref={urlInputRef}
+            type="text"
+            className={styles.urlInputField}
+            placeholder="Enter SDL URL"
+            value={url !== 'noUrl' ? url : ''}
+            onChange={handleUrlChange}
+          />
+        </div>
+        <div className={styles.sendButtonContainer}>
+          <button className={styles['send-button']} onClick={handleSendClick}>
+            Docs
+          </button>
         </div>
       </div>
     </div>
