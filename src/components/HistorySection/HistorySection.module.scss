@@ -12,6 +12,27 @@
 
 .buttonsContainer {
   display: flex;
+
+  :first-child {
+    margin-left: 0px;
+  }
+
+  :last-child {
+    margin-right: 0px;
+  }
+
+  & > * {
+    margin: 0px 20px;
+    @include mobile {
+      margin: 0px;
+    }
+  }
+
+  @include mobile {
+    flex-direction: column;
+    margin-bottom: 20px;
+    width: 90%;
+  }
 }
 
 .buttonLarge {
@@ -20,10 +41,23 @@
   padding: 15px 32px;
   text-align: center;
   border-radius: 0.25rem;
-  margin: 20px;
-  width: 180px;
+  margin: 20px 0px;
+  margin-left: 30px;
   box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
   cursor: pointer;
+
+  @include laptop {
+    margin-left: 20px;
+    padding: 12px 25px;
+  }
+
+  @include mobile {
+    padding: 8px 13px;
+    margin: 10px 0px;
+    margin-left: 0px;
+    margin-right: 3px;
+  }
+
   &:hover {
     border-color: rgba(0, 0, 0, 0.15);
     box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
@@ -52,5 +86,12 @@
   gap: 2px;
   & > div {
     margin: 2px 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @include big-mobile {
+    grid-template-columns: 20% 40% 40%;
   }
 }

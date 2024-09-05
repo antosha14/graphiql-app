@@ -11,8 +11,15 @@
   &:hover {
     background-color: $color-dark-purple-secondary;
   }
+
+  @include big-mobile {
+    grid-template-columns: 20% 40% 40%;
+  }
 }
 
 .textDescription {
   margin: 2px 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

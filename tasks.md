@@ -44,7 +44,7 @@
 
 ### General requirements - max 50 points
 
-- [x] Multiple (at lest 2) languages support / i18n. - **30 points**
+- [x] Multiple (at lest 2) languages support / i18n. - **(30/30)**
 - [x] Sticky header. - **(10/10)**
 - [x] Errors are displayed in the user friendly format. - **(10/10)**
 
