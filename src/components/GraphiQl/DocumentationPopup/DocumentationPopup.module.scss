@@ -1,0 +1,87 @@
+.schemaExplorer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 30vw;
+  background-color: $color-dark-purple-secondary;
+  overflow-y: auto;
+  z-index: 100;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+
+  &.show {
+    transform: translateX(0);
+  }
+
+  > ul {
+    list-style: none;
+    padding: 0;
+    margin-left: 20px;
+    > li {
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+.docsHeader {
+  margin: 20px;
+}
+
+.typeHeader {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.expandIcon {
+  margin-left: 0.5rem;
+}
+
+.fields {
+  margin-left: 1rem;
+  padding: 0;
+  > li {
+    margin-bottom: 0.25rem;
+  }
+}
+
+.type-object {
+  color: #007bff;
+  font-style: italic;
+  font-size: 0.875rem;
+}
+
+.type-scalar {
+  color: #28a745;
+  font-style: italic;
+  font-size: 0.875rem;
+}
+
+.type-interface {
+  color: #6f42c1;
+  font-style: italic;
+  font-size: 0.875rem;
+}
+
+.type-list {
+  color: #ffc107;
+  font-style: italic;
+  font-size: 0.875rem;
+}
+
+.type-non_null {
+  color: #dc3545;
+  font-style: italic;
+  font-size: 0.875rem;
+}
+
+.appWrapper {
+  z-index: 99;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+}

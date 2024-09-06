@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from 'react';
 import CodeMirror, { EditorView } from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 import { ApexTheme } from '@models/codeMirrorTheme';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { parseRequestBody } from '@utils/parseRequestBody';
 import IconWithDescription from '../IconWithDescription/IconWithDescription';
 import { useRequestUpdateContext } from '@contexts/RequestStateContext';
@@ -27,7 +27,6 @@ export default function RequestBar({ height }: { height: number }) {
   const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const editorRef = useRef(null);
-  const router = useRouter();
   const searchParams = useSearchParams();
   const setRequestState = useRequestUpdateContext();
 
@@ -44,7 +43,7 @@ export default function RequestBar({ height }: { height: number }) {
     searchParams.forEach((value, key) => {
       params.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
     });
-    router.push(`/${method}/${encodedUrl}/${encodedBody}?${params.join('&')}`, { scroll: false });
+    window.history.replaceState({}, '', `/${method}/${encodedUrl}/${encodedBody}?${params.join('&')}`);
   };
 
   const handlePrettifyClick = () => {
@@ -109,7 +108,7 @@ export default function RequestBar({ height }: { height: number }) {
       headers: parseQueryparams(searchParams),
     };
     try {
-      const response = await fetch('/api/makeRestRequest', {
+      const response = await fetch('/api/makeRequest', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

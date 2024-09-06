@@ -66,7 +66,7 @@ export default function GraphiQlClient() {
   });
   return (
     <section className={styles.graphClientContainer}>
-      <GraphiQlRequestBar height={state.show == 'nothing' ? 415 : 320}></GraphiQlRequestBar>
+      <GraphiQlRequestBar height={state.show == 'nothing' ? 370 : 270}></GraphiQlRequestBar>
       <RequestParamsSection showState={state.show} dispatchViewAction={dispatch}></RequestParamsSection>
     </section>
   );

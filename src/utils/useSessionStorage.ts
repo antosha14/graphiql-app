@@ -4,13 +4,17 @@ import { RequestParamsVisibilityState } from '@components/Rest/RestClient/RestCl
 const initialVisibilityState = { show: 'nothing', lastShown: 'variables' };
 
 export const updateVisibilityInSs = (visibilityState: RequestParamsVisibilityState) => {
-  sessionStorage.setItem(visibilityLocalStorageName, JSON.stringify(visibilityState));
+  if (typeof window !== 'undefined') {
+    sessionStorage.setItem(visibilityLocalStorageName, JSON.stringify(visibilityState));
+  }
 };
 
 export const getVisibilityState = () => {
-  const visibilityFromLs = sessionStorage.getItem(visibilityLocalStorageName);
-  if (!visibilityFromLs) {
-    sessionStorage.setItem(visibilityLocalStorageName, JSON.stringify(initialVisibilityState));
+  if (typeof window !== 'undefined') {
+    const visibilityFromLs = sessionStorage.getItem(visibilityLocalStorageName);
+    if (!visibilityFromLs) {
+      sessionStorage.setItem(visibilityLocalStorageName, JSON.stringify(initialVisibilityState));
+    }
+    return visibilityFromLs ? JSON.parse(visibilityFromLs) : initialVisibilityState;
   }
-  return visibilityFromLs ? JSON.parse(visibilityFromLs) : initialVisibilityState;
 };

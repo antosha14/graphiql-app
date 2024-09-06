@@ -99,3 +99,43 @@
   max-width: 100%;
   margin-bottom: 20px;
 }
+
+.docs-query-container {
+  display: flex;
+  justify-content: baseline;
+  align-items: top;
+  padding: 10px;
+  background-color: darken($color-dark-purple-secondary, 10%);
+}
+
+.docsUrlInputField {
+  flex: 1;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  background-color: $color-dark-purple-secondary;
+  color: $font-color-light;
+}
+
+.getDocsButton,
+.showDocsButton {
+  background-color: $color-dark-purple-main;
+  color: $font-color-light;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-left: 10px;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+    background-color: $color-dark-pink;
+    color: $font-color-dark;
+    transform: translateY(-1px);
+  }
+}
+

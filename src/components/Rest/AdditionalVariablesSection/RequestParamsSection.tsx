@@ -3,7 +3,7 @@
 import ParamsTable from '../ParamsTable/ParamsTable';
 import styles from './RequestParamsSection.module.scss';
 import { useReducer, useEffect, Dispatch } from 'react';
-import { useRouter, usePathname, useSearchParams, ReadonlyURLSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams, ReadonlyURLSearchParams } from 'next/navigation';
 import { updateVariablesInLs, getAllVariablesFromLs } from '@utils/useLocalStorage';
 import { VisibilityActions } from '../RestClient/RestClient';
 
@@ -110,7 +110,6 @@ export default function RequestParamsSection({
     headerVariables: parseQueryparams(queryParams),
     variables: getAllVariablesFromLs(),
   });
-  const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -119,9 +118,7 @@ export default function RequestParamsSection({
         .slice(0, -1)
         .map(header => `${encodeURIComponent(header.paramKey)}=${encodeURIComponent(header.paramValue)}`)
         .join('&');
-      if (router) {
-        router.push(`${pathname}?${headers}`, { scroll: false });
-      }
+      window.history.replaceState({}, '', `${pathname}?${headers}`);
     }
   }, [state.headerVariables]);
 

@@ -15,7 +15,10 @@ export async function POST(req: Request) {
       );
     }
 
-    const validHeaders = headers.filter((entry: VariableField) => entry.paramKey && entry.paramValue);
+    let validHeaders = [];
+    if (headers !== '') {
+      validHeaders = headers.filter((entry: VariableField) => entry.paramKey && entry.paramValue);
+    }
     const headersObject: HeadersObject = validHeaders.reduce(
       (acc: HeadersObject, { paramKey, paramValue }: { paramKey: string; paramValue: string }) => {
         acc[paramKey] = paramValue;
@@ -25,13 +28,11 @@ export async function POST(req: Request) {
     );
 
     const requestOptions: RequestInit = {
-      method: method,
+      method: method !== 'GRAPHQL' ? method : 'POST',
       headers: headers === '' ? undefined : new Headers(headersObject),
       body: method !== 'GET' ? body : null,
     };
-
     const response = await fetch(url, requestOptions);
-
     const requestDuration = Date.now() - startTime;
     const statusText = response.statusText || httpStatusCodes[Number(response.status)] || 'Unknown Status';
     const contentLength = response.headers.get('content-length') || '0';

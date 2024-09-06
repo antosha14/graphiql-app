@@ -5,12 +5,13 @@ import { useState, useRef, useEffect } from 'react';
 import CodeMirror, { EditorView } from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 import { ApexTheme } from '@models/codeMirrorTheme';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { parseRequestBody } from '@utils/parseRequestBody';
 import IconWithDescription from '@components/Rest/IconWithDescription/IconWithDescription';
 import { useRequestUpdateContext } from '@contexts/RequestStateContext';
 import { parseQueryparams } from '@components/Rest/AdditionalVariablesSection/RequestParamsSection';
 import { addQueryToLs } from '@utils/useLocalStorage';
+import { DocumentationSearchBar } from '../DocumentationSearchBar/DocumentationSearchBar';
 
 const initialBodyText = '{\n  "message": "Write request body here"\n}';
 
@@ -24,9 +25,7 @@ export default function RequestBar({ height }: { height: number }) {
   const [url, setUrl] = useState<string>(encodedUrl ? atob(encodedUrl) : 'noUrl');
   const urlInputRef = useRef<HTMLInputElement>(null);
   const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null);
-
   const editorRef = useRef(null);
-  const router = useRouter();
   const searchParams = useSearchParams();
   const setRequestState = useRequestUpdateContext();
 
@@ -36,14 +35,14 @@ export default function RequestBar({ height }: { height: number }) {
     }
   }, [url]);
 
-  const updateUrl = (method: string, urlValue: string, bodyValue: string) => {
+  const updateUrl = (urlValue: string, bodyValue: string) => {
     const encodedUrl = btoa(urlValue);
     const encodedBody = btoa(bodyValue);
     const params: string[] = [];
     searchParams.forEach((value, key) => {
       params.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
     });
-    router.push(`/graphql/${encodedUrl}/${encodedBody}?${params.join('&')}`, { scroll: false });
+    window.history.replaceState({}, '', `/GRAPHQL/${encodedUrl}/${encodedBody}?${params.join('&')}`);
   };
 
   const handlePrettifyClick = () => {
@@ -61,7 +60,7 @@ export default function RequestBar({ height }: { height: number }) {
   const handleBodyBlur = () => {
     try {
       parseRequestBody(requestBody);
-      updateUrl(requestMethod, url, requestBody);
+      updateUrl(url, requestBody);
     } catch {
       setRequestBody("Your input wasn't a valid JSON");
     }
@@ -75,7 +74,7 @@ export default function RequestBar({ height }: { height: number }) {
     }
     setTypingTimeout(
       setTimeout(() => {
-        updateUrl(requestMethod, value, requestBody);
+        updateUrl(value, requestBody);
       }, 300)
     );
   };
@@ -103,7 +102,7 @@ export default function RequestBar({ height }: { height: number }) {
       headers: parseQueryparams(searchParams),
     };
     try {
-      const response = await fetch('/api/makeRestRequest', {
+      const response = await fetch('/api/makeRequest', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -222,23 +221,7 @@ export default function RequestBar({ height }: { height: number }) {
           ></IconWithDescription>
         </div>
       </div>
-      <div className={styles['query-bar-container']}>
-        <div className={styles['url-input']}>
-          <input
-            ref={urlInputRef}
-            type="text"
-            className={styles.urlInputField}
-            placeholder="Enter SDL URL"
-            value={url !== 'noUrl' ? url : ''}
-            onChange={handleUrlChange}
-          />
-        </div>
-        <div className={styles.sendButtonContainer}>
-          <button className={styles['send-button']} onClick={handleSendClick}>
-            Docs
-          </button>
-        </div>
-      </div>
+      <DocumentationSearchBar currentUrl={url}></DocumentationSearchBar>
     </div>
   );
 }
