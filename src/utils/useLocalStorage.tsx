@@ -27,7 +27,7 @@ export const addQueryToLs = (query: Query) => {
       const parsedQueries: Query[] = JSON.parse(queriesFromLs);
       const newQuery: Query = {
         ...query,
-        body: JSON.parse(query.body),
+        body: query.body,
         headers: query.headers.slice(0, -1),
       };
       parsedQueries.push(newQuery);

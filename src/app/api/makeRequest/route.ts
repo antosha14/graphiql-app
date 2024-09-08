@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     if (response.ok) {
       data = await response.json();
     } else {
-      data = await response.text();
+      data = JSON.parse(await response.text());
     }
 
     const responseData = {

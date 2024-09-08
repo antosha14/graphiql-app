@@ -2,9 +2,6 @@
 
 import styles from './GraphiQlRequestBar.module.scss';
 import { useState, useRef, useEffect } from 'react';
-import CodeMirror, { EditorView } from '@uiw/react-codemirror';
-import { json } from '@codemirror/lang-json';
-import { ApexTheme } from '@models/codeMirrorTheme';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { parseRequestBody } from '@utils/parseRequestBody';
 import IconWithDescription from '@components/Rest/IconWithDescription/IconWithDescription';
@@ -12,22 +9,24 @@ import { useRequestUpdateContext } from '@contexts/RequestStateContext';
 import { parseQueryparams } from '@components/Rest/AdditionalVariablesSection/RequestParamsSection';
 import { addQueryToLs } from '@utils/useLocalStorage';
 import { DocumentationSearchBar } from '../DocumentationSearchBar/DocumentationSearchBar';
+import GqlCodeMirror from '../GqlCodeMirror/GqlCodeMirror';
+import { parse, print } from 'graphql';
 
-const initialBodyText = '{\n  "message": "Write request body here"\n}';
+const initialGqlText = `## Here is GQL editor`;
 
 export default function RequestBar({ height }: { height: number }) {
   const pathname = usePathname();
   const urlParts = pathname.split('/').slice(1);
   const [method, encodedUrl = '', encodedBody = ''] = urlParts;
-
   const [requestMethod] = useState<string>(method || 'GET');
-  const [requestBody, setRequestBody] = useState<string>(encodedBody ? atob(encodedBody) : initialBodyText);
+
+  const [requestBody, setRequestBody] = useState<string>(encodedBody ? atob(encodedBody) : initialGqlText);
   const [url, setUrl] = useState<string>(encodedUrl ? atob(encodedUrl) : 'noUrl');
   const urlInputRef = useRef<HTMLInputElement>(null);
   const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null);
-  const editorRef = useRef(null);
   const searchParams = useSearchParams();
   const setRequestState = useRequestUpdateContext();
+  const [prettifyIndicator, setPrettifyIndicator] = useState(1);
 
   useEffect(() => {
     if (urlInputRef.current && url !== 'noUrl') {
@@ -45,24 +44,23 @@ export default function RequestBar({ height }: { height: number }) {
     window.history.replaceState({}, '', `/GRAPHQL/${encodedUrl}/${encodedBody}?${params.join('&')}`);
   };
 
-  const handlePrettifyClick = () => {
-    if (editorRef.current) {
-      try {
-        const jsonObject = JSON.parse(requestBody);
-        const prettyJson = JSON.stringify(jsonObject, null, 2);
-        setRequestBody(prettyJson);
-      } catch {
-        setRequestBody("Your input wasn't a valid JSON");
-      }
+  const handlePrettifyClick = async () => {
+    try {
+      const parsedQuery = parse(requestBody);
+      const formattedQuery = print(parsedQuery);
+      setRequestBody(formattedQuery);
+      setPrettifyIndicator(Math.random());
+    } catch {
+      setRequestBody("Your input wasn't a valid query");
     }
   };
 
-  const handleBodyBlur = () => {
+  const handleBodyBlur = (gqlQuery: string) => {
     try {
-      parseRequestBody(requestBody);
-      updateUrl(url, requestBody);
+      const parsedBody = parseRequestBody(gqlQuery);
+      updateUrl(url, parsedBody);
     } catch {
-      setRequestBody("Your input wasn't a valid JSON");
+      setRequestBody("Your input wasn't a valid query");
     }
   };
 
@@ -84,9 +82,7 @@ export default function RequestBar({ height }: { height: number }) {
   };
 
   const handleCopyClick = () => {
-    if (editorRef.current) {
-      navigator.clipboard.writeText(requestBody);
-    }
+    navigator.clipboard.writeText(requestBody);
   };
 
   const handleSendClick = async () => {
@@ -98,7 +94,7 @@ export default function RequestBar({ height }: { height: number }) {
     const requestParams = {
       url: url !== 'noUrl' ? url : '',
       method: requestMethod,
-      body: requestBody,
+      body: JSON.stringify({ query: requestBody }),
       headers: parseQueryparams(searchParams),
     };
     try {
@@ -109,6 +105,7 @@ export default function RequestBar({ height }: { height: number }) {
         },
         body: JSON.stringify(requestParams),
       });
+
       const responseData = await response.json();
 
       if (!response.ok) {
@@ -126,40 +123,42 @@ export default function RequestBar({ height }: { height: number }) {
             status: response.status,
             statusText: responseData.error,
           });
-        } else if (setRequestState) {
-          setRequestState({
-            status: 'displayError',
-            response: {
+        } else {
+          if (setRequestState) {
+            setRequestState({
+              status: 'displayError',
+              response: {
+                status: response.status,
+                statusText: 'An unexpected error occurred. Please try again later',
+                data: 'An unexpected error occurred. Please try again later',
+              },
+            });
+            addQueryToLs({
+              ...requestParams,
               status: response.status,
               statusText: 'An unexpected error occurred. Please try again later',
-              data: 'An unexpected error occurred. Please try again later',
+            });
+          }
+        }
+        return;
+      } else {
+        if (setRequestState) {
+          setRequestState({
+            status: 'displayed',
+            response: {
+              status: responseData.status,
+              statusText: responseData.statusText,
+              duration: responseData.duration,
+              contentLength: responseData.contentLength,
+              data: JSON.stringify(responseData.data, null, 2),
             },
           });
           addQueryToLs({
             ...requestParams,
-            status: response.status,
-            statusText: 'An unexpected error occurred. Please try again later',
-          });
-        }
-        return;
-      }
-
-      if (setRequestState) {
-        setRequestState({
-          status: 'displayed',
-          response: {
             status: responseData.status,
             statusText: responseData.statusText,
-            duration: responseData.duration,
-            contentLength: responseData.contentLength,
-            data: JSON.stringify(responseData.data, null, 2),
-          },
-        });
-        addQueryToLs({
-          ...requestParams,
-          status: responseData.status,
-          statusText: responseData.statusText,
-        });
+          });
+        }
       }
     } catch (error) {
       if (setRequestState) {
@@ -196,18 +195,12 @@ export default function RequestBar({ height }: { height: number }) {
       </div>
 
       <div className={styles.requestBodyContainer} style={{ height: `${height + 10}px` }}>
-        <div className={styles.bodyEditorContainer}>
-          <CodeMirror
-            value={requestBody}
-            extensions={[json(), EditorView.lineWrapping]}
-            theme={ApexTheme}
-            className={styles.codeMirror}
-            height={`${height}px`}
-            ref={editorRef}
-            onChange={value => handleBodyChange(value)}
-            onBlur={handleBodyBlur}
-          />
-        </div>
+        <GqlCodeMirror
+          queryBody={requestBody}
+          onBodyChange={handleBodyChange}
+          onBodyBlur={handleBodyBlur}
+          wasPrettified={prettifyIndicator}
+        />
         <div className={styles.buttonsContainer}>
           <IconWithDescription
             imageUrl="/brush.svg"

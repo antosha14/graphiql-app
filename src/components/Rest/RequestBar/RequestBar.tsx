@@ -60,8 +60,8 @@ export default function RequestBar({ height }: { height: number }) {
 
   const handleBodyBlur = () => {
     try {
-      parseRequestBody(requestBody);
-      updateUrl(requestMethod, url, requestBody);
+      const parsedBody = parseRequestBody(requestBody);
+      updateUrl(requestMethod, url, parsedBody);
     } catch {
       setRequestBody("Your input wasn't a valid JSON");
     }
