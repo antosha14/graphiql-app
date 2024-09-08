@@ -45,20 +45,34 @@ export default function RequestBar({ height }: { height: number }) {
   };
 
   const handlePrettifyClick = async () => {
+    setPrettifyIndicator(Math.random());
     try {
       const parsedQuery = parse(requestBody);
       const formattedQuery = print(parsedQuery);
       setRequestBody(formattedQuery);
-      setPrettifyIndicator(Math.random());
     } catch {
       setRequestBody("Your input wasn't a valid query");
     }
   };
 
-  const handleBodyBlur = (gqlQuery: string) => {
+  const handleBodyBlur = (gqlQuery: string, currentUrl: string) => {
     try {
-      const parsedBody = parseRequestBody(gqlQuery);
-      updateUrl(url, parsedBody);
+      const [baseUrl, queryString] = currentUrl.split('?');
+      const segments = baseUrl.split('/');
+      if (segments.length !== 4) {
+        let lastSegment = segments.pop() || '';
+
+        lastSegment = btoa(gqlQuery);
+        segments.push(lastSegment);
+        const updatedUrl = `${segments.join('/')}?${queryString ? queryString : ''}`;
+        window.history.replaceState({}, '', updatedUrl);
+      } else {
+        window.history.replaceState(
+          {},
+          '',
+          `${baseUrl}/${btoa('noUrl')}/${btoa(gqlQuery)}?${queryString ? queryString : ''}`
+        );
+      }
     } catch {
       setRequestBody("Your input wasn't a valid query");
     }
@@ -94,7 +108,7 @@ export default function RequestBar({ height }: { height: number }) {
     const requestParams = {
       url: url !== 'noUrl' ? url : '',
       method: requestMethod,
-      body: JSON.stringify({ query: requestBody }),
+      body: JSON.stringify({ query: parseRequestBody(requestBody) }),
       headers: parseQueryparams(searchParams),
     };
     try {

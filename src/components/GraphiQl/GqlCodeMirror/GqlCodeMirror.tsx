@@ -1,3 +1,5 @@
+'use client';
+
 import styles from './GqlCodeMirror.module.scss';
 import { basicSetup, EditorView } from 'codemirror';
 import { graphql } from 'cm6-graphql';
@@ -12,7 +14,7 @@ export default function GqlCodeMirror({
 }: {
   queryBody: string;
   onBodyChange: (value: string) => void;
-  onBodyBlur: (value: string) => void;
+  onBodyBlur: (value: string, currentUrl: string) => void;
   wasPrettified: number;
 }) {
   const editorRef = useRef<HTMLDivElement>(null);
@@ -28,7 +30,7 @@ export default function GqlCodeMirror({
           ApexTheme,
           EditorView.updateListener.of(update => {
             if (update.focusChanged && !update.view.hasFocus) {
-              onBodyBlur(view.state.doc.toString());
+              onBodyBlur(view.state.doc.toString(), window.location.href);
             }
           }),
         ],
