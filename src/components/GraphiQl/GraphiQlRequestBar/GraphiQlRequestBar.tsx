@@ -105,10 +105,12 @@ export default function RequestBar({ height }: { height: number }) {
         return { ...state, status: 'pending' };
       });
     }
+
+    const parsedBody = parseRequestBody(requestBody);
     const requestParams = {
       url: url !== 'noUrl' ? url : '',
       method: requestMethod,
-      body: JSON.stringify({ query: parseRequestBody(requestBody) }),
+      body: JSON.stringify({ query: parsedBody }),
       headers: parseQueryparams(searchParams),
     };
     try {
@@ -134,6 +136,7 @@ export default function RequestBar({ height }: { height: number }) {
           });
           addQueryToLs({
             ...requestParams,
+            body: parsedBody,
             status: response.status,
             statusText: responseData.error,
           });
@@ -149,6 +152,7 @@ export default function RequestBar({ height }: { height: number }) {
             });
             addQueryToLs({
               ...requestParams,
+              body: parsedBody,
               status: response.status,
               statusText: 'An unexpected error occurred. Please try again later',
             });
@@ -169,6 +173,7 @@ export default function RequestBar({ height }: { height: number }) {
           });
           addQueryToLs({
             ...requestParams,
+            body: parsedBody,
             status: responseData.status,
             statusText: responseData.statusText,
           });

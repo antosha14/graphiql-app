@@ -30,6 +30,8 @@ export default function RequestBar({ height }: { height: number }) {
   const searchParams = useSearchParams();
   const setRequestState = useRequestUpdateContext();
 
+  const [isJson, setIsJson] = useState(true);
+
   useEffect(() => {
     if (urlInputRef.current && url !== 'noUrl') {
       urlInputRef.current.focus();
@@ -224,12 +226,18 @@ export default function RequestBar({ height }: { height: number }) {
       </div>
       <div className={styles.requestBodyContainer} style={{ height: `${height + 10}px` }}>
         <div className={styles.bodyLabel}>
-          <div>Body:</div>
+          <div className={styles.label}>Body:</div>
+          <button className={`${styles.editorOption} ${isJson && styles.active}`} onClick={() => setIsJson(true)}>
+            Json
+          </button>
+          <button className={`${styles.editorOption} ${!isJson && styles.active}`} onClick={() => setIsJson(false)}>
+            Raw
+          </button>
         </div>
         <div className={styles.bodyEditorContainer}>
           <CodeMirror
             value={requestBody}
-            extensions={[json(), EditorView.lineWrapping]}
+            extensions={[isJson ? json() : [], EditorView.lineWrapping]}
             theme={ApexTheme}
             className={styles.codeMirror}
             height={`${height}px`}
@@ -239,11 +247,13 @@ export default function RequestBar({ height }: { height: number }) {
           />
         </div>
         <div className={styles.buttonsContainer}>
-          <IconWithDescription
-            imageUrl="/brush.svg"
-            handleClickFunction={handlePrettifyClick}
-            description="Prettify"
-          ></IconWithDescription>
+          {isJson && (
+            <IconWithDescription
+              imageUrl="/brush.svg"
+              handleClickFunction={handlePrettifyClick}
+              description="Prettify"
+            ></IconWithDescription>
+          )}
           <IconWithDescription
             imageUrl="/copy.svg"
             handleClickFunction={handleCopyClick}

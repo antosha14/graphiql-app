@@ -72,6 +72,8 @@
   border: none;
   padding: 8px 10px;
   min-width: 91px;
+  display: flex;
+  flex-direction: column;
 }
 
 .buttonsContainer {
@@ -116,4 +118,23 @@
   width: 100%;
   max-width: 100%;
   margin-bottom: 20px;
+}
+
+.editorOption {
+  padding: 10px;
+  margin: 5px 0px;
+  border-radius: 10px;
+  &:hover {
+    background-color: $color-dark-pink;
+    color: $font-color-dark;
+  }
+
+  &.active {
+    background-color: $color-dark-pink;
+    color: $font-color-dark;
+  }
+}
+
+.label {
+  text-align: center;
 }
