@@ -3,13 +3,14 @@
 import styles from './SignUpForm.module.scss';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { userRegisterSchema } from '@models/signUpModel';
+import { useUserRegisterSchema } from '@models/signUpModel';
 import FormInput from '@components/FormInput/FormInput';
 import { useAuth } from '@contexts/AuthContext';
 import { useState } from 'react';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { collection, addDoc } from 'firebase/firestore';
 import { stripFirebaseErrorMessage } from '@utils/stripFirebaseErrorMessage';
+import { useTranslation } from 'react-i18next';
 
 export interface FormInputState {
   name: string;
@@ -19,18 +20,20 @@ export interface FormInputState {
 }
 
 export default function SignUpForm() {
+  const schema = useUserRegisterSchema();
   const {
     register,
     formState: { errors },
     handleSubmit,
     watch,
   } = useForm({
-    resolver: yupResolver(userRegisterSchema),
+    resolver: yupResolver(schema),
     mode: 'onChange',
   });
 
   const [loadingUser, setLoading] = useState(false);
   const [signUpErrors, setSignUpErrors] = useState(null);
+  const { t } = useTranslation();
 
   const { auth, db } = useAuth();
   const onSubmit: SubmitHandler<FormInputState> = async () => {
@@ -64,11 +67,11 @@ export default function SignUpForm() {
   return loadingUser ? (
     <div className={styles.formContainer}>
       <img src="loader.svg" alt="Loading indicator"></img>
-      <div>Trying to register a User ...</div>
+      <div>{t('regPro')}</div>
     </div>
   ) : (
     <>
-      <div className={styles.formHeader}>Introduce yourself!</div>
+      <div className={styles.formHeader}>{t('regIntro')}</div>
       <div className={styles.formContainer}>
         <form className={styles.mainForm} onSubmit={handleSubmit(onSubmit)}>
           <FormInput field="name" register={register} errors={errors} watch={watch} />
@@ -80,7 +83,7 @@ export default function SignUpForm() {
             className={`${styles.submitButton} ${checkErrors() || signUpErrors !== null ? styles.submitButtonError : ''}`}
             disabled={checkErrors() || signUpErrors !== null}
           >
-            Register
+            {t('regButtonText')}
           </button>
         </form>
         {signUpErrors ? (

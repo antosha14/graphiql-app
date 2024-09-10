@@ -1,8 +1,13 @@
 import { object, string, InferType } from 'yup';
+import { useTranslation } from 'react-i18next';
 
-export const userLoginSchema = object({
-  email: string().required('Email is required').email('Invalid email address'),
-  password: string().required('Password is required'),
-});
+export const useUserLoginSchema = () => {
+  const { t } = useTranslation();
 
-export type User = InferType<typeof userLoginSchema>;
+  return object({
+    email: string().required(t('validation.email.required')).email(t('validation.email.invalid')),
+    password: string().required(t('validation.password.required')),
+  });
+};
+
+export type User = InferType<ReturnType<typeof useUserLoginSchema>>;

@@ -3,6 +3,7 @@
 import styles from './DocumentationSearchBar.module.scss';
 import { useState } from 'react';
 import DocumentationPopup from '../DocumentationPopup/DocumentationPopup';
+import { useTranslation } from 'react-i18next';
 
 export interface DocsState {
   status: 'notFetched' | 'pending' | 'error' | 'visible' | 'fetchedNonVisible';
@@ -50,6 +51,7 @@ export const DocumentationSearchBar = ({ currentUrl }: { currentUrl: string }) =
   const [docsState, setDocsState] = useState<DocsState>({ status: 'notFetched' });
   const [ownsInput, setOwnsInput] = useState<boolean>(false);
   const [docsUrl, setDocsUrl] = useState<string>('');
+  const { t } = useTranslation();
 
   const handleViewDocsClick = () => {
     setDocsState(state => {
@@ -110,12 +112,12 @@ export const DocumentationSearchBar = ({ currentUrl }: { currentUrl: string }) =
         <input
           type="text"
           className={styles.docsUrlInputField}
-          placeholder="Enter SDL URL"
+          placeholder={t('sdlPlaceholder')}
           value={ownsInput ? docsUrl : currentUrl !== 'noUrl' ? `${currentUrl}?sdl` : ''}
           onChange={event => handleDocsUrlChange(event)}
         />
         <button className={styles['getDocsButton']} onClick={handleGetDocsClick}>
-          Get Docs
+          {t('docsPlaceholder')}
         </button>
         <button
           className={`${styles['showDocsButton']} ${docsState.status == 'visible' || docsState.status == 'fetchedNonVisible' ? '' : styles.inactiveButton}`}
@@ -123,12 +125,12 @@ export const DocumentationSearchBar = ({ currentUrl }: { currentUrl: string }) =
           disabled={docsState.status == 'visible' || docsState.status == 'fetchedNonVisible' ? false : true}
         >
           {docsState.status == 'pending'
-            ? 'Fetching...'
+            ? t('docsFetch')
             : docsState.status == 'error'
-              ? 'Error fetching docs'
+              ? t('docsError')
               : docsState.status == 'notFetched'
-                ? 'No fetched docs'
-                : 'View Docs'}
+                ? t('noDocs')
+                : t('viewDocs')}
         </button>
         <div className={styles.sendButtonContainer}></div>
       </div>

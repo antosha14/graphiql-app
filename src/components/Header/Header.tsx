@@ -8,6 +8,7 @@ import logo from '../../../public/logo.jpg';
 import Link from 'next/link';
 import { useAuth } from '@contexts/AuthContext';
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function Header() {
   const { currentUser } = useAuth();
@@ -29,6 +30,8 @@ export default function Header() {
     };
   }, []);
 
+  const { t } = useTranslation();
+
   return (
     <header className={`${styles.headerContainer} ${isSticky ? styles.sticky : ''}`}>
       <nav className={styles.navContainer}>
@@ -40,11 +43,11 @@ export default function Header() {
         <div className={styles.sideNavigation}>
           <LanguageToggle />
           {currentUser ? (
-            <ButtonLarge text={'Sign Out'} />
+            <ButtonLarge text={t('signOutButtonText')} />
           ) : (
             <>
-              <ButtonLarge text={'Sign In'} />
-              <ButtonLarge text={'Sign Up'} />
+              <ButtonLarge text={t('signInButtonText')} />
+              <ButtonLarge text={t('signUpButtonText')} />
             </>
           )}
         </div>

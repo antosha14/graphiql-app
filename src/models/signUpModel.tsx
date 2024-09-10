@@ -1,20 +1,25 @@
 import { object, string, InferType, ref } from 'yup';
+import { useTranslation } from 'react-i18next';
 
-export const userRegisterSchema = object({
-  name: string()
-    .required('Name is required')
-    .matches(/^[A-Z][a-zA-Z]*$/, 'Start with uppercase letter'),
-  email: string().required('Email is required').email('Invalid email address'),
-  password: string()
-    .required('Password is required')
-    .matches(/[0-9]/, 'At least one number')
-    .matches(/[A-Z]/, 'At least one uppercase letter')
-    .matches(/[a-z]/, 'At least one lowercase letter')
-    .matches(/[!@#$%^&*(),.?":{}|<>]/, 'At least one special character')
-    .length(8, 'At least 8 characters long'),
-  passwordConfirm: string()
-    .required('Password confirmation is required')
-    .oneOf([ref('password')], 'Passwords must match'),
-});
+export const useUserRegisterSchema = () => {
+  const { t } = useTranslation();
 
-export type User = InferType<typeof userRegisterSchema>;
+  return object({
+    name: string()
+      .required(t('validation.name.required'))
+      .matches(/^[A-Z][a-zA-Z]*$/, t('validation.name.uppercase')),
+    email: string().required(t('validation.email.required')).email(t('validation.email.invalid')),
+    password: string()
+      .required(t('validation.password.required'))
+      .matches(/[0-9]/, t('validation.password.oneNumber'))
+      .matches(/[A-Z]/, t('validation.password.oneUppercase'))
+      .matches(/[a-z]/, t('validation.password.oneLowercase'))
+      .matches(/[!@#$%^&*(),.?":{}|<>]/, t('validation.password.oneSpecial'))
+      .length(8, t('validation.password.minLength')),
+    passwordConfirm: string()
+      .required(t('validation.passwordConfirm.required'))
+      .oneOf([ref('password')], t('validation.passwordConfirm.match')),
+  });
+};
+
+export type User = InferType<ReturnType<typeof useUserRegisterSchema>>;

@@ -3,6 +3,7 @@
 import { SchemaData, DocsState } from '../DocumentationSearchBar/DocumentationSearchBar';
 import styles from './DocumentationPopup.module.scss';
 import { useState, SetStateAction, Dispatch } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const DocumentationPopup = ({
   data,
@@ -18,11 +19,12 @@ const DocumentationPopup = ({
   const toggleType = (typeName: string) => {
     setExpandedTypes(prev => (prev.includes(typeName) ? prev.filter(name => name !== typeName) : [...prev, typeName]));
   };
+  const { t } = useTranslation();
 
   return (
     <>
       <section className={`${styles.schemaExplorer} ${show && styles.show}`}>
-        <h2 className={styles.docsHeader}>Documentation</h2>
+        <h2 className={styles.docsHeader}>{t('documentation')}</h2>
         <ul>
           {data.data.__schema.types.map(type => (
             <li key={type.name}>

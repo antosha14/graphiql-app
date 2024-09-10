@@ -3,6 +3,7 @@ import { UseFormRegister, FieldErrors, UseFormWatch } from 'react-hook-form';
 import { FormInputState } from '@components/SignUpForm/SignUpForm';
 import PasswordStrengthMeter from '@components/PasswordStrengthMeter/PasswordStrengthMeter';
 import { usePathname } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 
 interface FormInputProps {
   field: 'name' | 'email' | 'password' | 'passwordConfirm';
@@ -13,11 +14,12 @@ interface FormInputProps {
 
 export default function FormInput({ field, register, errors, watch }: FormInputProps) {
   const pathname = usePathname();
-  const fieldName = field == 'passwordConfirm' ? 'Confirm password:' : `${field[0].toUpperCase()}${field.slice(1)}:`;
+  const { t } = useTranslation();
+
   return (
     <div className={styles.inputContainer}>
       <label htmlFor={field} className={styles.mainLabel}>
-        {fieldName}
+        {t(field)}
       </label>
       <input
         id={field}

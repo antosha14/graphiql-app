@@ -6,6 +6,6 @@ import RestfullPage from './restfulPage';
 
 export default function RouteHandling() {
   const pathname = usePathname();
-  const urlParts = pathname.split('/').slice(1);
-  return urlParts[0]?.toLowerCase() == 'graphql' ? <GraphiqlPage /> : <RestfullPage />;
+  const routeClient = pathname.split('/').slice(1)[1];
+  return routeClient?.toLowerCase() == 'graphql' ? <GraphiqlPage /> : <RestfullPage />;
 }

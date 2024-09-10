@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 import '@styles/index.scss';
-import Header from '@components/Header/Header';
-import Footer from '@components/Footer/Footer';
 import { AuthProvider } from '@contexts/AuthContext';
 import RestProvider from '@contexts/RequestStateContext';
+import Layout from '@components/Layout/Layout';
 
 export const metadata: Metadata = {
   title: 'APEX API Explorer',
@@ -12,19 +11,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+  params: { locale },
+}: {
   children: React.ReactNode;
-}>) {
+  params: { locale: string };
+}) {
   return (
     <html lang="en">
       <body>
         <AuthProvider>
           <RestProvider>
-            <>
-              <Header />
-              <main>{children}</main>
-              <Footer />
-            </>
+            <Layout locale={locale}>{children}</Layout>
           </RestProvider>
         </AuthProvider>
       </body>

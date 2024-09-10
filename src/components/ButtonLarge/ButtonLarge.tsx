@@ -10,7 +10,13 @@ export default function ButtonLarge({ text }: { text: string }) {
     case 'Sign In':
       targetLink = '/authentication';
       break;
+    case 'Войти':
+      targetLink = '/authentication';
+      break;
     case 'Sign Up':
+      targetLink = '/registration';
+      break;
+    case 'Регистрация':
       targetLink = '/registration';
       break;
   }

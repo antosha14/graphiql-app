@@ -2,7 +2,7 @@
 
 import styles from './GraphiQlRequestBar.module.scss';
 import { useState, useRef, useEffect } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { parseRequestBody } from '@utils/parseRequestBody';
 import IconWithDescription from '@components/Rest/IconWithDescription/IconWithDescription';
 import { useRequestUpdateContext } from '@contexts/RequestStateContext';
@@ -11,17 +11,22 @@ import { addQueryToLs } from '@utils/useLocalStorage';
 import { DocumentationSearchBar } from '../DocumentationSearchBar/DocumentationSearchBar';
 import GqlCodeMirror from '../GqlCodeMirror/GqlCodeMirror';
 import { parse, print } from 'graphql';
-
-const initialGqlText = `## Here is GQL editor`;
+import { useTranslation } from 'react-i18next';
+import { b64EncodeUnicode, b64DecodeUnicode } from '@utils/base64encode';
 
 export default function RequestBar({ height }: { height: number }) {
-  const pathname = usePathname();
-  const urlParts = pathname.split('/').slice(1);
-  const [method, encodedUrl = '', encodedBody = ''] = urlParts;
+  const { t } = useTranslation();
+  const params = useParams();
+  const pathname = params.slug;
+  const locale = params.locale;
+  const method = pathname[0];
+  const encodedUrl = pathname[1] || b64EncodeUnicode('noUrl');
+  const encodedBody = pathname[2] || b64EncodeUnicode(t('gqlWelcome'));
+
   const [requestMethod] = useState<string>(method || 'GET');
 
-  const [requestBody, setRequestBody] = useState<string>(encodedBody ? atob(encodedBody) : initialGqlText);
-  const [url, setUrl] = useState<string>(encodedUrl ? atob(encodedUrl) : 'noUrl');
+  const [requestBody, setRequestBody] = useState<string>(b64DecodeUnicode(encodedBody));
+  const [url, setUrl] = useState<string>(b64DecodeUnicode(encodedUrl));
   const urlInputRef = useRef<HTMLInputElement>(null);
   const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null);
   const searchParams = useSearchParams();
@@ -35,13 +40,13 @@ export default function RequestBar({ height }: { height: number }) {
   }, [url]);
 
   const updateUrl = (urlValue: string, bodyValue: string) => {
-    const encodedUrl = btoa(urlValue);
-    const encodedBody = btoa(bodyValue);
+    const encodedUrl = b64EncodeUnicode(urlValue);
+    const encodedBody = b64EncodeUnicode(bodyValue);
     const params: string[] = [];
     searchParams.forEach((value, key) => {
       params.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
     });
-    window.history.replaceState({}, '', `/GRAPHQL/${encodedUrl}/${encodedBody}?${params.join('&')}`);
+    window.history.replaceState({}, '', `/${locale}/GRAPHQL/${encodedUrl}/${encodedBody}?${params.join('&')}`);
   };
 
   const handlePrettifyClick = async () => {
@@ -51,7 +56,7 @@ export default function RequestBar({ height }: { height: number }) {
       const formattedQuery = print(parsedQuery);
       setRequestBody(formattedQuery);
     } catch {
-      setRequestBody("Your input wasn't a valid query");
+      setRequestBody(t('errQuery'));
     }
   };
 
@@ -59,10 +64,10 @@ export default function RequestBar({ height }: { height: number }) {
     try {
       const [baseUrl, queryString] = currentUrl.split('?');
       const segments = baseUrl.split('/');
-      if (segments.length !== 4) {
+      const lengthLimit = segments[3] == 'ru' || segments[3] == 'en' ? 5 : 4;
+      if (segments.length > lengthLimit) {
         let lastSegment = segments.pop() || '';
-
-        lastSegment = btoa(gqlQuery);
+        lastSegment = b64EncodeUnicode(gqlQuery);
         segments.push(lastSegment);
         const updatedUrl = `${segments.join('/')}?${queryString ? queryString : ''}`;
         window.history.replaceState({}, '', updatedUrl);
@@ -70,11 +75,11 @@ export default function RequestBar({ height }: { height: number }) {
         window.history.replaceState(
           {},
           '',
-          `${baseUrl}/${btoa('noUrl')}/${btoa(gqlQuery)}?${queryString ? queryString : ''}`
+          `${baseUrl}/${b64EncodeUnicode('noUrl')}/${b64EncodeUnicode(gqlQuery)}?${queryString ? queryString : ''}`
         );
       }
     } catch {
-      setRequestBody("Your input wasn't a valid query");
+      setRequestBody(t('errQuery'));
     }
   };
 
@@ -146,15 +151,15 @@ export default function RequestBar({ height }: { height: number }) {
               status: 'displayError',
               response: {
                 status: response.status,
-                statusText: 'An unexpected error occurred. Please try again later',
-                data: 'An unexpected error occurred. Please try again later',
+                statusText: t('reqError'),
+                data: t('reqError'),
               },
             });
             addQueryToLs({
               ...requestParams,
               body: parsedBody,
               status: response.status,
-              statusText: 'An unexpected error occurred. Please try again later',
+              statusText: t('reqError'),
             });
           }
         }
@@ -201,14 +206,14 @@ export default function RequestBar({ height }: { height: number }) {
             ref={urlInputRef}
             type="text"
             className={styles.urlInputField}
-            placeholder="Enter GraphQL Endpoint URL"
+            placeholder={t('gqlUrl')}
             value={url !== 'noUrl' ? url : ''}
             onChange={handleUrlChange}
           />
         </div>
         <div className={styles.sendButtonContainer}>
           <button className={styles['send-button']} onClick={handleSendClick}>
-            Send
+            {t('send')}
           </button>
         </div>
       </div>
@@ -224,12 +229,12 @@ export default function RequestBar({ height }: { height: number }) {
           <IconWithDescription
             imageUrl="/brush.svg"
             handleClickFunction={handlePrettifyClick}
-            description="Prettify"
+            description={t('prettify')}
           ></IconWithDescription>
           <IconWithDescription
             imageUrl="/copy.svg"
             handleClickFunction={handleCopyClick}
-            description="Copy"
+            description={t('copy')}
           ></IconWithDescription>
         </div>
       </div>

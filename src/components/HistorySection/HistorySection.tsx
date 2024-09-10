@@ -5,9 +5,11 @@ import { getAllQueries } from '@utils/useLocalStorage';
 import HistoryEntry from '@components/HistoryEntry/HistoryEntry';
 import Link from 'next/link';
 import { Query } from '@utils/useLocalStorage';
+import { useTranslation } from 'react-i18next';
 
 export default function HistorySection() {
   const queries = getAllQueries();
+  const { t } = useTranslation();
   return (
     <section className={styles.historyContainer}>
       {queries.length == 0 ? (
@@ -15,9 +17,9 @@ export default function HistorySection() {
       ) : (
         <div className={styles.historyEntriesContainer}>
           <div className={styles.tableHeaderContainer}>
-            <div>Method</div>
+            <div>{t('method')}</div>
             <div>URL</div>
-            <div>Query status</div>
+            <div>{t('queryStatus')}</div>
           </div>
           {queries.map((query: Query, index: number) => (
             <HistoryEntry key={index} query={query}></HistoryEntry>
@@ -26,10 +28,10 @@ export default function HistorySection() {
       )}
       <div className={styles.buttonsContainer}>
         <Link href="/GET" className={styles.buttonLarge}>
-          REST Client
+          REST {t('client')}
         </Link>
         <Link href="/GRAPHQL" className={styles.buttonLarge}>
-          GraphiQL Client
+          GraphiQL {t('client')}
         </Link>
       </div>
     </section>

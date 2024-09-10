@@ -1,4 +1,4 @@
-import styles from '../styles/WelcomePage.module.scss';
+import styles from '@styles/WelcomePage.module.scss';
 
 export default function NotFoundPage() {
   return (

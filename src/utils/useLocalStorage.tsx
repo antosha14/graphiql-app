@@ -20,7 +20,6 @@ export interface Query {
 
 export const addQueryToLs = (query: Query) => {
   if (typeof window !== 'undefined') {
-    console.log(query.body);
     const queriesFromLs = localStorage.getItem(queriesLocalStorageName);
     if (!queriesFromLs) {
       localStorage.setItem(queriesLocalStorageName, JSON.stringify([]));

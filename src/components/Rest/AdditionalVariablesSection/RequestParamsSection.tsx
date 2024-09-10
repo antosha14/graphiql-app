@@ -6,6 +6,7 @@ import { useReducer, useEffect, Dispatch } from 'react';
 import { usePathname, useSearchParams, ReadonlyURLSearchParams } from 'next/navigation';
 import { updateVariablesInLs, getAllVariablesFromLs } from '@utils/useLocalStorage';
 import { VisibilityActions } from '../RestClient/RestClient';
+import { useTranslation } from 'react-i18next';
 
 export interface VariableField {
   id: number;
@@ -122,6 +123,7 @@ export default function RequestParamsSection({
     }
   }, [state.headerVariables]);
 
+  const { t } = useTranslation();
   return (
     <div className={styles.paramsContainer}>
       <div className={styles.paramsSelectionContainer} onMouseDown={() => 'i'}>
@@ -131,7 +133,7 @@ export default function RequestParamsSection({
             dispatchViewAction({ type: 'showed_variables' });
           }}
         >
-          Variables
+          {t('variables')}
         </button>
         <button
           className={`${styles.paramChooseButton} ${showState == 'headers' ? styles.buttonActive : ''}`}
@@ -139,7 +141,7 @@ export default function RequestParamsSection({
             dispatchViewAction({ type: 'showed_headers' });
           }}
         >
-          Headers
+          {t('headers')}
         </button>
         <button
           className={styles.paramShowButton}

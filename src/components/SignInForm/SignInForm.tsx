@@ -3,12 +3,13 @@
 import styles from '@components/SignUpForm/SignUpForm.module.scss';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { userLoginSchema } from '@models/signInModel';
+import { useUserLoginSchema } from '@models/signInModel';
 import FormInput from '@components/FormInput/FormInput';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useAuth } from '@contexts/AuthContext';
 import { useState } from 'react';
 import { stripFirebaseErrorMessage } from '@utils/stripFirebaseErrorMessage';
+import { useTranslation } from 'react-i18next';
 
 export interface FormInputState {
   email: string;
@@ -16,13 +17,14 @@ export interface FormInputState {
 }
 
 export default function SignInForm() {
+  const schema = useUserLoginSchema();
   const {
     register,
     formState: { errors },
     handleSubmit,
     watch,
   } = useForm({
-    resolver: yupResolver(userLoginSchema),
+    resolver: yupResolver(schema),
     mode: 'onChange',
   });
 
@@ -44,18 +46,20 @@ export default function SignInForm() {
     }
   };
 
+  const { t } = useTranslation();
+
   const checkErrors = () => {
     return Object.values(errors).some(value => value !== undefined);
   };
 
   return loadingUser ? (
     <div className={styles.formContainer}>
-      <img src="loader.svg" alt="Loading indicator"></img>
-      <div>Trying to authenticate ...</div>
+      <img src="loader.svg" alt={t('imageAlt')}></img>
+      <div>{t('pMessageAuth')}</div>
     </div>
   ) : (
     <>
-      <div className={styles.formHeader}>Welcome back!</div>
+      <div className={styles.formHeader}>{t('wmReg')}</div>
       <div className={styles.formContainer}>
         <form className={styles.mainForm} onSubmit={handleSubmit(onSubmit)}>
           <FormInput field="email" register={register} errors={errors} watch={watch} />
@@ -65,7 +69,7 @@ export default function SignInForm() {
             className={`${styles.submitButton} ${checkErrors() ? styles.submitButtonError : ''}`}
             disabled={checkErrors()}
           >
-            Sign In
+            {t('signInButtonText')}
           </button>
         </form>
         {signInErrors ? (

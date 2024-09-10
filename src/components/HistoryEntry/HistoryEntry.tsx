@@ -4,10 +4,11 @@ import styles from './HistoryEntry.module.scss';
 import { Query } from '@utils/useLocalStorage';
 import { useRouter } from 'next/navigation';
 import { requestTypeOptions } from '@models/requestTypeOptions';
+import { b64EncodeUnicode } from '@utils/base64encode';
 
 export default function HistoryEntry({ query }: { query: Query }) {
   const router = useRouter();
-  const url = `/${query.method}/${btoa(query.url)}/${btoa(JSON.stringify(query.body))}?${query.headers
+  const url = `/${query.method}/${b64EncodeUnicode(query.url)}/${b64EncodeUnicode(JSON.stringify(query.body))}?${query.headers
     .map(header => {
       return `${header.paramKey}=${header.paramValue}`;
     })

@@ -1,6 +1,6 @@
 'use client';
 
-import styles from '@app/registration/RegistrationPage.module.scss';
+import styles from '../registration/RegistrationPage.module.scss';
 import SignInForm from '@components/SignInForm/SignInForm';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';

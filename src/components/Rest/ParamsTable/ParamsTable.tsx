@@ -4,6 +4,7 @@ import styles from './ParamsTable.module.scss';
 import { VariableField } from '../AdditionalVariablesSection/RequestParamsSection';
 import { variablesActions } from '../AdditionalVariablesSection/RequestParamsSection';
 import { Dispatch } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface TableProps {
   tableFor: 'headers' | 'variables';
@@ -55,6 +56,8 @@ export default function ParamsTable({ tableFor, elements, dispatcher }: TablePro
     }
   };
 
+  const { t } = useTranslation();
+
   const handleOptionDeletion = (index: number) => {
     return dispatcher({ type: 'removed_option', option: tableFor, index: index });
   };
@@ -65,8 +68,8 @@ export default function ParamsTable({ tableFor, elements, dispatcher }: TablePro
         <thead>
           <tr>
             <th className={`${styles.tableHead} ${styles.tableDataCenter}`}></th>
-            <th className={styles.tableHead}>{tableFor == 'headers' ? 'Header' : 'Variable name'}</th>
-            <th className={styles.tableHead}>Value</th>
+            <th className={styles.tableHead}>{tableFor == 'headers' ? t('header') : t('varName')}</th>
+            <th className={styles.tableHead}>{t('value')}</th>
             <th className={styles.tableHead}></th>
           </tr>
         </thead>
@@ -81,7 +84,7 @@ export default function ParamsTable({ tableFor, elements, dispatcher }: TablePro
                   type="text"
                   className={styles.inputField}
                   value={element.paramKey}
-                  placeholder="Enter key"
+                  placeholder={t('keyPlaceholder')}
                   onChange={event => handleParamChange({ index: index, key: event.target.value })}
                 />
               </td>
@@ -90,7 +93,7 @@ export default function ParamsTable({ tableFor, elements, dispatcher }: TablePro
                   type="text"
                   className={styles.inputField}
                   value={element.paramValue}
-                  placeholder="Enter value"
+                  placeholder={t('valuePlaceholder')}
                   onChange={event => handleParamChange({ index: index, value: event.target.value })}
                 />
               </td>
