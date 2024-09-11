@@ -6,7 +6,7 @@ export function parseRequestBody(data: string) {
   const variablesRegex = /{{(.*?)}}/g;
   const parsedRequestBody = data.replace(variablesRegex, match => {
     const matchedEntry = variables.find((item: Variable) => item.paramKey === match.slice(2, -2));
-    return `"${matchedEntry.paramValue}"`;
+    return matchedEntry && `"${matchedEntry.paramValue}"`;
   });
   return parsedRequestBody;
 }

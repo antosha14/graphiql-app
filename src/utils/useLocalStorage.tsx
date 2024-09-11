@@ -21,15 +21,15 @@ export interface Query {
 export const addQueryToLs = (query: Query) => {
   if (typeof window !== 'undefined') {
     const queriesFromLs = localStorage.getItem(queriesLocalStorageName);
+    const newQuery: Query = {
+      ...query,
+      body: query.body,
+      headers: query.headers.slice(0, -1),
+    };
     if (!queriesFromLs) {
-      localStorage.setItem(queriesLocalStorageName, JSON.stringify([]));
+      localStorage.setItem(queriesLocalStorageName, JSON.stringify([newQuery]));
     } else {
       const parsedQueries: Query[] = JSON.parse(queriesFromLs);
-      const newQuery: Query = {
-        ...query,
-        body: query.body,
-        headers: query.headers.slice(0, -1),
-      };
       parsedQueries.push(newQuery);
       localStorage.setItem(queriesLocalStorageName, JSON.stringify(parsedQueries));
     }
