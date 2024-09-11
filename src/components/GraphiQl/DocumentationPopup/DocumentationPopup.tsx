@@ -21,10 +21,19 @@ const DocumentationPopup = ({
   };
   const { t } = useTranslation();
 
+  const handleDocsClose = () => {
+    handleModalClick(state => {
+      return { ...state, status: 'fetchedNonVisible' };
+    });
+  };
+
   return (
     <>
       <section className={`${styles.schemaExplorer} ${show && styles.show}`}>
-        <h2 className={styles.docsHeader}>{t('documentation')}</h2>
+        <div className={styles.docsHeader}>
+          <h2>{t('documentation')}</h2>
+          <img src="/close.svg" onClick={handleDocsClose} className={styles.docsCloseButton}></img>
+        </div>
         <ul>
           {data.data.__schema.types.map(type => (
             <li key={type.name}>
@@ -50,16 +59,7 @@ const DocumentationPopup = ({
           ))}
         </ul>
       </section>
-      {show && (
-        <div
-          className={styles.appWrapper}
-          onClick={() =>
-            handleModalClick(state => {
-              return { ...state, status: 'fetchedNonVisible' };
-            })
-          }
-        ></div>
-      )}
+      {show && <div className={styles.appWrapper} onClick={handleDocsClose}></div>}
     </>
   );
 };
