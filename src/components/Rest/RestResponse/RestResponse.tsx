@@ -4,12 +4,25 @@ import styles from './RestResponse.module.scss';
 import CodeMirror, { EditorView } from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 import { ApexTheme } from '@models/codeMirrorTheme';
-import { useRestRequest } from '@contexts/RequestStateContext';
+import { useRestRequest, useRequestUpdateContext } from '@contexts/RequestStateContext';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 
 export default function RestResponse() {
   const request = useRestRequest();
+  const setRequest = useRequestUpdateContext();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    return () => {
+      if (setRequest) {
+        setRequest({
+          status: 'noRequest',
+          response: { status: 0, statusText: '', duration: 0, contentLength: '0', data: '' },
+        });
+      }
+    };
+  }, []);
 
   const requestSection =
     request.status == 'noRequest' ? (
