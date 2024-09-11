@@ -54,7 +54,7 @@ export default function SignInForm() {
 
   return loadingUser ? (
     <div className={styles.formContainer}>
-      <img src="loader.svg" alt={t('imageAlt')}></img>
+      <img src="/loader.svg" alt={t('imageAlt')}></img>
       <div>{t('pMessageAuth')}</div>
     </div>
   ) : (

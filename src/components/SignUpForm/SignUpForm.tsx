@@ -66,7 +66,7 @@ export default function SignUpForm() {
 
   return loadingUser ? (
     <div className={styles.formContainer}>
-      <img src="loader.svg" alt="Loading indicator"></img>
+      <img src="/loader.svg" alt="Loading indicator"></img>
       <div>{t('regPro')}</div>
     </div>
   ) : (

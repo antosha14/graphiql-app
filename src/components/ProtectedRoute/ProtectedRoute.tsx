@@ -20,7 +20,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   if (loading) {
     return (
       <section className={styles.mainContainer}>
-        <img src="loader.svg" alt="Loading indicator" className={styles.loadingSvg}></img>
+        <img src="/loader.svg" alt="Loading indicator" className={styles.loadingSvg}></img>
       </section>
     );
   }
