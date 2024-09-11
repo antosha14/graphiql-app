@@ -108,6 +108,11 @@
   border-radius: 10px;
   cursor: pointer;
 
+  @include mobile {
+    margin-top: 5px;
+    width: 80%;
+  }
+
   &:hover {
     color: $color-dark-bg;
     background-color: $color-dark-pink;

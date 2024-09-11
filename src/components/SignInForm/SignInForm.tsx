@@ -86,9 +86,9 @@ export default function SignInForm() {
             {t('signInButtonText')}
           </button>
           <div className={styles.guestContainer}>
-            <p className={styles.guestText}>Or you can continue as a guest</p>
+            <p className={styles.guestText}>{t('guestMessage')}</p>
             <button className={styles.guestButton} onClick={onGuest}>
-              Continue
+              {t('continue')}
             </button>
           </div>
         </form>
