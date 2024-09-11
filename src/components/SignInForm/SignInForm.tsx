@@ -46,6 +46,20 @@ export default function SignInForm() {
     }
   };
 
+  const onGuest = async () => {
+    setLoading(true);
+    try {
+      await signInWithEmailAndPassword(auth, 'anton.kozel.97@mail.ru', '123As***');
+    } catch (err) {
+      setSignInErrors(err.message);
+      setTimeout(() => {
+        setSignInErrors(null);
+      }, 10000);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const { t } = useTranslation();
 
   const checkErrors = () => {
@@ -71,6 +85,12 @@ export default function SignInForm() {
           >
             {t('signInButtonText')}
           </button>
+          <div className={styles.guestContainer}>
+            <p className={styles.guestText}>Or you can continue as a guest</p>
+            <button className={styles.guestButton} onClick={onGuest}>
+              Continue
+            </button>
+          </div>
         </form>
         {signInErrors ? (
           <div className={styles.registrationError}>{`${stripFirebaseErrorMessage(signInErrors)}`}</div>

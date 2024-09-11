@@ -89,3 +89,27 @@
     width: 95%;
   }
 }
+
+.guestContainer {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  align-items: center;
+  @include mobile {
+    flex-direction: column;
+  }
+}
+
+.guestButton {
+  margin-left: 20px;
+  padding: 5px;
+  color: $color-dark-pink;
+  background-color: $color-dark-bg;
+  border-radius: 10px;
+  cursor: pointer;
+
+  &:hover {
+    color: $color-dark-bg;
+    background-color: $color-dark-pink;
+  }
+}
