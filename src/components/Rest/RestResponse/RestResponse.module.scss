@@ -1,12 +1,15 @@
 .restResponseContainer {
   min-width: 40%;
-  margin: 20px;
+  margin: 20px 1%;
   background-color: $color-dark-purple-secondary;
   border-radius: 30px;
   padding: 10px;
   display: flex;
   flex-direction: column;
   flex: 1;
+  @include mobile {
+    margin: 10px 1%;
+  }
 }
 
 .syntaxHighlighterWrapper {

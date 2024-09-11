@@ -11,6 +11,10 @@
   padding: 10px;
   background-color: darken($color-dark-purple-secondary, 10%);
 
+  @include mobile {
+    flex-direction: column;
+  }
+
   .url-input {
     flex: 1;
 
@@ -35,6 +39,12 @@
     text-align: center;
     box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
 
+    @include mobile {
+      margin: 0px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
     &:hover {
       border-color: rgba(0, 0, 0, 0.15);
       box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
@@ -49,19 +59,18 @@
   min-width: 81px;
 }
 
-.bodyLabel {
-  color: $font-color-light;
-  border: none;
-  padding: 8px 10px;
-  min-width: 91px;
-}
-
 .buttonsContainer {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   justify-content: right;
   min-width: 81px;
+  @include mobile {
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    margin-top: 5px;
+  }
 }
 
 .bodyHelperButton {
@@ -83,6 +92,9 @@
   align-items: top;
   padding: 10px;
   max-width: 100%;
+  @include mobile {
+    flex-direction: column;
+  }
 }
 
 .bodyEditorContainer {
@@ -138,4 +150,3 @@
     transform: translateY(-1px);
   }
 }
-

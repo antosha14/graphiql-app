@@ -22,6 +22,18 @@
       margin-bottom: 0.5rem;
     }
   }
+  @include tablet {
+    width: 40vw;
+  }
+  @include laptop {
+    width: 60vw;
+  }
+  @include big-mobile {
+    width: 80vw;
+  }
+  @include mobile {
+    width: 100vw;
+  }
 }
 
 .docsHeader {

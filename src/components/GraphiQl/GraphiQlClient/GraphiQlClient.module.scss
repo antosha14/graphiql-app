@@ -1,7 +1,6 @@
 .graphClientContainer {
   min-width: 55%;
-  margin: 20px;
-  margin-right: 1%;
+  margin: 20px 1%;
   padding: 10px;
   background-color: darken($color-dark-purple-secondary, 10%);
   color: $font-color-light;
@@ -10,4 +9,7 @@
   flex-direction: column;
   justify-content: space-between;
   min-height: 100%;
+  @include mobile {
+    margin: 10px 1%;
+  }
 }
