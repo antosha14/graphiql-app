@@ -22,7 +22,7 @@ export default function RestResponse() {
       <section className={styles.restResponseContainer}>
         <div className={styles.responseLoadingContainer}>
           <link rel="preload" href="/loader.svg" as="image" />
-          <img src="/loader.svg" alt="Loading indicator" className={styles.loadingSvg}></img>
+          <img src="/loader.svg" alt="Loading indicator" className={styles.loadingSvg} />
         </div>
       </section>
     ) : request.status == 'displayError' ? (

@@ -113,7 +113,7 @@ export default function RequestBar({ height }: { height: number }) {
 
     const parsedBody = parseRequestBody(requestBody);
     const requestParams = {
-      url: url !== 'noUrl' ? url : '',
+      url: url,
       method: requestMethod,
       body: JSON.stringify({ query: parsedBody }),
       headers: parseQueryparams(searchParams),

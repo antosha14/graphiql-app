@@ -108,7 +108,7 @@ export default function RequestBar({ height }: { height: number }) {
       });
     }
     const requestParams = {
-      url: url !== 'noUrl' ? url : '',
+      url: url,
       method: requestMethod,
       body: requestBody,
       headers: parseQueryparams(searchParams),

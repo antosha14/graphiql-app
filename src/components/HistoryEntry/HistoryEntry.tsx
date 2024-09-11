@@ -8,7 +8,7 @@ import { b64EncodeUnicode } from '@utils/base64encode';
 
 export default function HistoryEntry({ query }: { query: Query }) {
   const router = useRouter();
-  const url = `/${query.method}/${b64EncodeUnicode(query.url)}/${b64EncodeUnicode(JSON.stringify(query.body))}?${query.headers
+  const url = `/${query.method}/${b64EncodeUnicode(query.url)}/${b64EncodeUnicode(query.body)}?${query.headers
     .map(header => {
       return `${header.paramKey}=${header.paramValue}`;
     })
