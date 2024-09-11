@@ -107,10 +107,12 @@ export default function RequestBar({ height }: { height: number }) {
         return { ...state, status: 'pending' };
       });
     }
+
+    const parsedBody = parseRequestBody(requestBody);
     const requestParams = {
       url: url,
       method: requestMethod,
-      body: requestBody,
+      body: parsedBody,
       headers: parseQueryparams(searchParams),
     };
     try {
