@@ -8,17 +8,14 @@ import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 
 export default function WelcomePage() {
-  const { currentUser } = useAuth();
+  const { currentUser, setCurrentUser } = useAuth();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
-    const checkAuth = async () => {
-      await new Promise(resolve => setTimeout(resolve, 500));
-      setLoading(false);
-    };
-    checkAuth();
+    setCurrentUser(currentUser);
+    setLoading(false);
   }, [currentUser]);
 
   const welcomePage = loading ? (

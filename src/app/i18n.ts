@@ -21,7 +21,7 @@ export default async function initTranslations(
 
   if (!resources) {
     instance.use(
-      resourcesToBackend((language, namespace) =>
+      resourcesToBackend((language: string, namespace: string) =>
         import(`../../locales/${language}/${namespace}.json`).then(m => m.default)
       )
     );
@@ -40,7 +40,7 @@ export default async function initTranslations(
 
   return {
     i18n: instance,
-    resources: instance.services.resourceStore.data,
+    resources: instance.services.resourceStore.data as Record<string, Record<string, Resource>>,
     t: instance.t,
   };
 }

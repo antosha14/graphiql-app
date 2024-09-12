@@ -2,7 +2,7 @@ import { createTheme } from '@uiw/codemirror-themes';
 import { tags as t } from '@lezer/highlight';
 
 export const ApexTheme = createTheme({
-  theme: 'ApexTheme',
+  theme: 'dark',
   settings: {
     background: 'rgb(46, 35, 108)',
     foreground: '#e0e0e0',

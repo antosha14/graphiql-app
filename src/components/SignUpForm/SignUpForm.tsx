@@ -4,7 +4,7 @@ import styles from './SignUpForm.module.scss';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUserRegisterSchema } from '@models/signUpModel';
-import FormInput from '@components/FormInput/FormInput';
+import FormInput from '@components/FormInput/FormInputReg';
 import { useAuth } from '@contexts/AuthContext';
 import { useState } from 'react';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
@@ -32,7 +32,7 @@ export default function SignUpForm() {
   });
 
   const [loadingUser, setLoading] = useState(false);
-  const [signUpErrors, setSignUpErrors] = useState(null);
+  const [signUpErrors, setSignUpErrors] = useState<string | null>(null);
   const { t } = useTranslation();
 
   const { auth, db } = useAuth();
@@ -50,8 +50,12 @@ export default function SignUpForm() {
         authProvider: 'local',
         email: watch('email'),
       });
-    } catch (err) {
-      setSignUpErrors(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setSignUpErrors(err.message);
+      } else {
+        setSignUpErrors(t('reqError'));
+      }
       setTimeout(() => {
         setSignUpErrors(null);
       }, 5000);

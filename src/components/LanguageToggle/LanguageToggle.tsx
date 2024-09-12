@@ -1,9 +1,9 @@
 import styles from './LanguageToggle.module.scss';
 import { useRouter } from 'next/navigation';
-import { usePathname } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
-import { i18nConfig } from '../../i18nConfig';
 import { useState, useEffect } from 'react';
+import { i18nConfig } from '../../i18nConfig';
+import { usePathname } from 'next/navigation';
 
 export default function LanguageToggle() {
   const { i18n } = useTranslation();
@@ -16,20 +16,20 @@ export default function LanguageToggle() {
     setIsChecked(currentLocale === 'ru');
   }, [currentLocale]);
 
-  const handleLocaleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLocaleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const newLocale = event.target.checked ? 'ru' : 'en';
     setIsChecked(event.target.checked);
 
-    const days = 30;
-    const date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    const expires = date.toUTCString();
-    document.cookie = `NEXT_LOCALE=${newLocale};expires=${expires};path=/`;
-
-    if (currentLocale === i18nConfig.defaultLocale && !i18nConfig.prefixDefault) {
-      router.push('/' + newLocale + currentPathname);
-    } else {
-      router.push(currentPathname.replace(`/${currentLocale}`, `/${newLocale}`));
+    try {
+      i18n.changeLanguage(newLocale);
+      if (currentLocale === i18nConfig.defaultLocale && !i18nConfig.prefixDefault) {
+        window.history.replaceState({}, '', '/' + newLocale + currentPathname);
+      } else {
+        window.history.replaceState({}, '', currentPathname.replace(`/${currentLocale}`, `/${newLocale}`));
+      }
+      router.refresh();
+    } catch (error) {
+      console.error('Error switching locale:', error);
     }
   };
 

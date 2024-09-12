@@ -4,14 +4,14 @@ import styles from '@components/SignUpForm/SignUpForm.module.scss';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useUserLoginSchema } from '@models/signInModel';
-import FormInput from '@components/FormInput/FormInput';
+import FormInput from '@components/FormInput/FormInputAuth';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useAuth } from '@contexts/AuthContext';
 import { useState } from 'react';
 import { stripFirebaseErrorMessage } from '@utils/stripFirebaseErrorMessage';
 import { useTranslation } from 'react-i18next';
 
-export interface FormInputState {
+export interface FormInputStateAuth {
   email: string;
   password: string;
 }
@@ -30,14 +30,18 @@ export default function SignInForm() {
 
   const { auth } = useAuth();
   const [loadingUser, setLoading] = useState(false);
-  const [signInErrors, setSignInErrors] = useState(null);
+  const [signInErrors, setSignInErrors] = useState<string | null>(null);
 
-  const onSubmit: SubmitHandler<FormInputState> = async () => {
+  const onSubmit: SubmitHandler<FormInputStateAuth> = async () => {
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, watch('email'), watch('password'));
     } catch (err) {
-      setSignInErrors(err.message);
+      if (err instanceof Error) {
+        setSignInErrors(err.message);
+      } else {
+        setSignInErrors(t('reqError'));
+      }
       setTimeout(() => {
         setSignInErrors(null);
       }, 10000);
@@ -51,7 +55,11 @@ export default function SignInForm() {
     try {
       await signInWithEmailAndPassword(auth, 'anton.kozel.97@mail.ru', '123As***');
     } catch (err) {
-      setSignInErrors(err.message);
+      if (err instanceof Error) {
+        setSignInErrors(err.message);
+      } else {
+        setSignInErrors(t('reqError'));
+      }
       setTimeout(() => {
         setSignInErrors(null);
       }, 10000);

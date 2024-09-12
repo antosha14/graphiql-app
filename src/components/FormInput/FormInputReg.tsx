@@ -5,14 +5,16 @@ import PasswordStrengthMeter from '@components/PasswordStrengthMeter/PasswordStr
 import { usePathname } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
-interface FormInputProps {
+type FieldType = 'name' | 'email' | 'password' | 'passwordConfirm';
+
+interface FormInputPropsReg {
   field: 'name' | 'email' | 'password' | 'passwordConfirm';
   register: UseFormRegister<FormInputState>;
   errors: FieldErrors<FormInputState>;
   watch: UseFormWatch<FormInputState>;
 }
 
-export default function FormInput({ field, register, errors, watch }: FormInputProps) {
+export default function FormInputReg({ field, register, errors, watch }: FormInputPropsReg) {
   const pathname = usePathname();
   const { t } = useTranslation();
 
@@ -23,7 +25,7 @@ export default function FormInput({ field, register, errors, watch }: FormInputP
       </label>
       <input
         id={field}
-        {...register(field)}
+        {...register(field as FieldType)}
         className={`${styles.mainInput} ${errors?.[field]?.message ? styles.redBorder : ''}`}
         type={field == 'password' || field == 'passwordConfirm' ? 'password' : 'text'}
       ></input>
