@@ -1,5 +1,5 @@
 import { useAuth } from '@contexts/AuthContext';
-import styles from '../../styles/WelcomePage.module.scss';
+import styles from '@styles/WelcomePage.module.scss';
 import Link from 'next/link';
 
 export default function ButtonLarge({ text }: { text: string }) {
