@@ -95,22 +95,21 @@
   margin-top: 10px;
   margin-bottom: 0px;
   align-items: center;
+  justify-content: center;
   @include mobile {
     flex-direction: column;
   }
 }
 
-.guestButton {
-  margin-left: 20px;
+.guestText {
   padding: 5px;
   color: $color-dark-pink;
-  background-color: $color-dark-bg;
   border-radius: 10px;
   cursor: pointer;
 
   @include mobile {
     margin-top: 5px;
-    width: 80%;
+    width: 100%;
   }
 
   &:hover {
