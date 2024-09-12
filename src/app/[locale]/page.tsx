@@ -5,24 +5,12 @@ import ButtonLarge from '@components/ButtonLarge/ButtonLarge';
 import { useAuth } from '@contexts/AuthContext';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
-import { useState, useEffect } from 'react';
 
 export default function WelcomePage() {
-  const { currentUser, setCurrentUser } = useAuth();
+  const { currentUser } = useAuth();
   const { t } = useTranslation();
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    setLoading(true);
-    setCurrentUser(currentUser);
-    setLoading(false);
-  }, [currentUser]);
-
-  const welcomePage = loading ? (
-    <section className={styles.mainContainer}>
-      <img src="/loader.svg" alt="Loading indicator" className={styles.loadingSvg}></img>
-    </section>
-  ) : currentUser ? (
+  const welcomePage = currentUser ? (
     <section className={styles.mainContainer}>
       <div className={styles.greetingContainer}>{`${t('wBack')}, ${currentUser.displayName}!`}</div>
       <div className={styles.greetingMessage}>{t('wMessageReg')}</div>

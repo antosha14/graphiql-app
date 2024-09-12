@@ -4,7 +4,7 @@ import styles from './Header.module.scss';
 import ButtonLarge from '@components/ButtonLarge/ButtonLarge';
 import LanguageToggle from '@components/LanguageToggle/LanguageToggle';
 import Image from 'next/image';
-import logo from '../../../public/logo.jpg';
+import logo from '../../../public/logo.webp';
 import Link from 'next/link';
 import { useAuth } from '@contexts/AuthContext';
 import { useState, useEffect } from 'react';
