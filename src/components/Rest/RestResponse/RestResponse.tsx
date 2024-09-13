@@ -34,7 +34,6 @@ export default function RestResponse() {
     ) : request.status == 'pending' ? (
       <section className={styles.restResponseContainer}>
         <div className={styles.responseLoadingContainer}>
-          <link href="/loader.svg" as="image" />
           <img src="/loader.svg" alt="Loading indicator" className={styles.loadingSvg} />
         </div>
       </section>
