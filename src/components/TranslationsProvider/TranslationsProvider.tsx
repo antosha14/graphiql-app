@@ -2,17 +2,17 @@
 
 import { I18nextProvider } from 'react-i18next';
 import initTranslations from '../../app/i18n';
-import { createInstance, Resource } from 'i18next';
+import { createInstance } from 'i18next';
 
 interface TranslationsProviderProps {
   children: React.ReactNode;
   locale: string;
   namespaces: string[];
-  resources?: Record<string, Record<string, Resource>>;
 }
 
-export default function TranslationsProvider({ children, locale, namespaces, resources }: TranslationsProviderProps) {
+export default async function TranslationsProvider({ children, locale, namespaces }: TranslationsProviderProps) {
   const i18n = createInstance();
+  const { resources } = await initTranslations(locale, namespaces);
 
   initTranslations(locale, namespaces, i18n, resources);
 

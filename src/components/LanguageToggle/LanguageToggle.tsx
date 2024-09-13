@@ -20,12 +20,18 @@ export default function LanguageToggle() {
     const newLocale = event.target.checked ? 'ru' : 'en';
     setIsChecked(event.target.checked);
 
+    const days = 30;
+    const date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    const expires = date.toUTCString();
+    document.cookie = `NEXT_LOCALE=${newLocale};expires=${expires};path=/`;
+
     try {
       i18n.changeLanguage(newLocale);
       if (currentLocale === i18nConfig.defaultLocale && !i18nConfig.prefixDefault) {
-        window.history.replaceState({}, '', '/' + newLocale + currentPathname);
+        router.push('/' + newLocale + currentPathname);
       } else {
-        window.history.replaceState({}, '', currentPathname.replace(`/${currentLocale}`, `/${newLocale}`));
+        router.push(currentPathname.replace(`/${currentLocale}`, `/${newLocale}`));
       }
       router.refresh();
     } catch (error) {

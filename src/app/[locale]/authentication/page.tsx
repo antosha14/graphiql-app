@@ -2,21 +2,16 @@
 
 import styles from '../registration/RegistrationPage.module.scss';
 import SignInForm from '@components/SignInForm/SignInForm';
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@contexts/AuthContext';
 
 export default function Authentication() {
-  const { auth, currentUser, setCurrentUser } = useAuth();
+  const { currentUser } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (currentUser) {
-      const updateUser = async () => {
-        await new Promise(resolve => setTimeout(resolve, 500));
-        setCurrentUser(auth.currentUser);
-      };
-      updateUser();
       router.push('/');
     }
   }, [currentUser, router]);

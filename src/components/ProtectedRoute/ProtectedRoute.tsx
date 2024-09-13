@@ -2,7 +2,7 @@
 
 import { useAuth } from '@contexts/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useLayoutEffect } from 'react';
 import styles from '../../styles/WelcomePage.module.scss';
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -10,7 +10,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setLoading(true);
     if (!currentUser) {
       router.push('/authentication');
