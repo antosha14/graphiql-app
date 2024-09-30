@@ -1,0 +1,137 @@
+.switch {
+  position: relative;
+  display: inline-block;
+  margin: 0 5px;
+  margin-right: 10px;
+
+  @include mobile {
+    margin: 0 2px;
+    margin-right: 5px;
+  }
+}
+
+.switch > span {
+  position: absolute;
+  top: 9px;
+  pointer-events: none;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+  width: 50%;
+  text-align: center;
+
+  @include mobile {
+    top: 6px;
+    font-size: 0.8em;
+  }
+}
+
+input.check-toggle-round-flat:checked ~ .off {
+  color: $color-dark-bg;
+}
+
+input.check-toggle-round-flat:checked ~ .on {
+  color: #fff;
+}
+
+.switch > span.on {
+  left: 0;
+  padding-left: 2px;
+  color: $color-dark-bg;
+}
+
+.switch > span.off {
+  right: 0;
+  padding-right: 4px;
+  color: #fff;
+}
+
+.check-toggle {
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+.check-toggle + label {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+input.check-toggle-round-flat + label {
+  padding: 2px;
+  width: 100px;
+  height: 35px;
+  background-color: $color-dark-bg;
+  -webkit-border-radius: 60px;
+  -moz-border-radius: 60px;
+  -ms-border-radius: 60px;
+  -o-border-radius: 60px;
+  border-radius: 60px;
+
+  @include mobile {
+    width: 70px;
+    height: 25px;
+  }
+}
+
+input.check-toggle-round-flat + label:before,
+input.check-toggle-round-flat + label:after {
+  display: block;
+  position: absolute;
+  content: '';
+}
+
+input.check-toggle-round-flat + label:before {
+  top: 2px;
+  left: 2px;
+  bottom: 2px;
+  right: 2px;
+  background-color: $color-dark-bg;
+  -webkit--moz-border-radius: 60px;
+  -webkit--ms-border-radius: 60px;
+  -webkit--o-border-radius: 60px;
+  border-radius: 60px;
+
+  @include mobile {
+    top: 2px;
+    left: 1px;
+    bottom: 1px;
+    right: 1px;
+  }
+}
+
+input.check-toggle-round-flat + label:after {
+  top: 4px;
+  left: 4px;
+  bottom: 4px;
+  width: 48px;
+  background-color: #fff;
+  -webkit-border-radius: 52px;
+  -moz-border-radius: 52px;
+  -ms-border-radius: 52px;
+  -o-border-radius: 52px;
+  border-radius: 52px;
+  -webkit-transition: margin 0.2s;
+  -moz-transition: margin 0.2s;
+  -o-transition: margin 0.2s;
+  transition: margin 0.2s;
+
+  @include mobile {
+    top: 3px;
+    left: 3px;
+    bottom: 3px;
+    width: 34px;
+  }
+}
+
+input.check-toggle-round-flat:checked + label:after {
+  margin-left: 44px;
+
+  @include mobile {
+    margin-left: 31px;
+  }
+}

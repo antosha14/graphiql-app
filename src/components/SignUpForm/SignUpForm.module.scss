@@ -1,0 +1,119 @@
+.formContainer {
+  display: flex;
+  margin: 1rem;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  min-width: 550px;
+
+  @include big-mobile {
+    min-width: 300px;
+    width: 95%;
+  }
+}
+
+.mainForm {
+  padding: 1.5rem;
+  border-width: 1px;
+  background-color: $color-dark-purple-secondary;
+  min-width: 550px;
+
+  @include big-mobile {
+    min-width: 300px;
+    width: 95%;
+  }
+}
+
+.submitButton {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 100%;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  color: $color-dark-pink;
+  background-color: $color-dark-bg;
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+  cursor: pointer;
+
+  &:hover {
+    color: $color-dark-bg;
+    background-color: $color-dark-pink;
+  }
+}
+
+.submitButtonError {
+  color: $color-dark-bg;
+  background-color: $color-error;
+
+  &:hover {
+    color: $color-dark-bg;
+    background-color: $color-error;
+    box-shadow: 0 4px 8px $color-dark-bg;
+  }
+}
+
+.formHeader {
+  font-size: 44px;
+  font-family: $font-secondary;
+
+  @include mobile {
+    font-size: 30px;
+  }
+}
+
+.registrationError {
+  min-width: 550px;
+  background-color: $color-error;
+  opacity: 50%;
+  padding: 20px 15px;
+  margin-top: 20px;
+
+  @include big-mobile {
+    min-width: 300px;
+    width: 95%;
+  }
+}
+
+.registrationErrorPlaceholder {
+  padding: 20px 15px;
+  margin-top: 20px;
+  min-width: 550px;
+
+  @include big-mobile {
+    min-width: 300px;
+    width: 95%;
+  }
+}
+
+.guestContainer {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  align-items: center;
+  justify-content: center;
+  @include mobile {
+    flex-direction: column;
+  }
+}
+
+.guestText {
+  padding: 5px;
+  color: $color-dark-pink;
+  border-radius: 10px;
+  cursor: pointer;
+
+  @include mobile {
+    margin-top: 5px;
+    width: 100%;
+  }
+
+  &:hover {
+    color: $color-dark-bg;
+    background-color: $color-dark-pink;
+  }
+}

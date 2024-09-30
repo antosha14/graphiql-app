@@ -1,0 +1,51 @@
+.paramsContainer {
+  margin-top: 10px;
+}
+
+.paramsSelectionContainer {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  height: 40px;
+  width: 100%;
+  border-top: 2px solid $color-dark-purple-main;
+}
+
+.paramChooseButton {
+  padding: 10px;
+  margin-right: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+  z-index: 1;
+  &.buttonActive {
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+    background-color: $color-dark-pink;
+    color: $font-color-dark;
+  }
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+    background-color: $color-dark-pink;
+    color: $font-color-dark;
+    transform: translateY(-1px);
+  }
+}
+
+.paramShowButton {
+  margin-left: auto;
+  margin-top: 10px;
+  padding: 0px 5px;
+  height: 30px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+    background-color: $color-dark-pink;
+    color: $font-color-dark;
+    transform: translateY(-1px);
+  }
+}

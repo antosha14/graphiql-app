@@ -1,0 +1,101 @@
+.historyContainer {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.message {
+  font-size: 25px;
+  margin: 1%;
+  text-align: center;
+}
+
+.buttonsContainer {
+  display: flex;
+
+  :first-child {
+    margin-left: 0px;
+  }
+
+  :last-child {
+    margin-right: 0px;
+  }
+
+  & > * {
+    margin: 0px 20px;
+    @include mobile {
+      margin: 0px;
+    }
+  }
+
+  @include mobile {
+    flex-direction: column;
+    margin-bottom: 20px;
+    width: 90%;
+  }
+}
+
+.buttonLarge {
+  background-color: $color-dark-purple-main;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  border-radius: 0.25rem;
+  margin: 20px 0px;
+  margin-left: 30px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  cursor: pointer;
+  width: 200px;
+
+  @include laptop {
+    margin-left: 20px;
+    padding: 12px 25px;
+  }
+
+  @include mobile {
+    width: 100%;
+    padding: 8px 13px;
+    margin: 10px 0px;
+    margin-left: 0px;
+    margin-right: 3px;
+  }
+
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+    background-color: $color-dark-pink;
+    color: $font-color-dark;
+  }
+}
+
+.buttonLarge:hover {
+  transform: translateY(-1px);
+}
+
+.historyEntriesContainer {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: 20px 0px;
+}
+
+.tableHeaderContainer {
+  display: grid;
+  height: 40px;
+  align-items: center;
+  grid-template-columns: 10% 40% 50%;
+  border: 0.5px solid $font-color-light;
+  gap: 2px;
+  & > div {
+    margin: 2px 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @include big-mobile {
+    grid-template-columns: 20% 40% 40%;
+  }
+}

@@ -1,0 +1,12 @@
+.restClientContainer {
+  min-width: 55%;
+  margin: 20px 1%;
+  padding: 10px;
+  background-color: darken($color-dark-purple-secondary, 10%);
+  color: $font-color-light;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+}

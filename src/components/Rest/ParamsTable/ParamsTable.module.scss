@@ -1,0 +1,61 @@
+.paramsInputContainer {
+  min-height: 80px;
+  margin-top: 10px;
+  padding: 0px 10px;
+}
+
+.queryParamsTable {
+  width: 100%;
+  background-color: darken($color-dark-purple-secondary, 10%);
+  border-collapse: collapse;
+
+  .tableHead,
+  .tableData {
+    height: 25px;
+    padding: 4px 8px;
+    text-align: left;
+    background-color: darken($color-dark-purple-secondary, 10%);
+    border: 1px solid $color-dark-purple-main;
+    font-size: 14px;
+    &.tableDataCenter {
+      text-align: center;
+      vertical-align: middle;
+    }
+  }
+
+  .inputField {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    background-color: $color-dark-purple-secondary;
+    color: $font-color-light;
+  }
+
+  .deleteButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: $color-error;
+    width: 25px;
+    border-radius: 4px;
+    padding: 2px;
+    &:hover {
+      background-color: $color-dark-pink;
+    }
+  }
+}
+
+.addButton {
+  background-color: $color-dark-purple-secondary;
+  padding: 8px;
+  border-radius: 4px;
+  width: 110px;
+  margin: 0px 0px;
+  &:hover {
+    background-color: $color-dark-pink;
+    color: $font-color-dark;
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  }
+}

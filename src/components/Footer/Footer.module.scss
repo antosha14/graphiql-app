@@ -1,0 +1,47 @@
+.footerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 50px;
+  width: 100%;
+  background: $color-dark-purple-secondary;
+  @include mobile {
+    font-size: 14px;
+  }
+}
+
+.linkContainer {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  margin: 0 1%;
+  @include mobile {
+    margin: 0 7px;
+  }
+}
+
+.year {
+  margin: 0 10px;
+
+  @include mobile {
+    margin: 0 3px;
+  }
+}
+
+.logoContainer {
+  width: 40px;
+  height: 40px;
+  margin: 0 1%;
+  font-size: 8px;
+  @include mobile {
+    margin: 0 7px;
+  }
+}
+
+.logo {
+  border: 2px solid #fff;
+  border-radius: 50%;
+  &:hover {
+    box-shadow: 0 4px 8px $color-dark-bg;
+  }
+}
